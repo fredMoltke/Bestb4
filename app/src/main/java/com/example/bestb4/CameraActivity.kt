@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Log
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -14,6 +18,7 @@ import androidx.camera.core.*
 import androidx.camera.core.R
 import androidx.camera.lifecycle.ProcessCameraProvider
 import kotlinx.android.synthetic.main.activity_camera.*
+import org.greenrobot.eventbus.EventBus
 
 import java.io.File
 import java.nio.ByteBuffer
@@ -74,6 +79,10 @@ class CameraActivity : AppCompatActivity() {
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
+                    val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
+                    val event: CustomEvent = CustomEvent(photoBitmap)
+                    EventBus.getDefault().post(event)
+                    finish()
                 }
             })
     }
@@ -126,6 +135,11 @@ class CameraActivity : AppCompatActivity() {
             File(it, resources.getString(com.example.bestb4.R.string.app_name)).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else filesDir
+    }
+
+    private fun convertFileToBitmap(file: File): Bitmap{
+        val filePath: String = file.absolutePath.toString()
+        return BitmapFactory.decodeFile(filePath)
     }
 
     override fun onDestroy() {

@@ -23,6 +23,8 @@
     <androidx.camera.view.PreviewView
         android:id="@+id/viewFinder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-31dp"></androidx.camera.view.PreviewView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
