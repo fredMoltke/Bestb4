@@ -12,17 +12,17 @@ import org.greenrobot.eventbus.Subscribe
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var button: Button
+//    private lateinit var button: Button
     private lateinit var image: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        button = findViewById<Button>(R.id.openActivity_btn)
+//        button = findViewById<Button>(R.id.openActivity_btn)
         image = findViewById<ImageView>(R.id.imageView)
 
-        button.setOnClickListener {
+        openActivity_btn.setOnClickListener {
             val intent = Intent(this@MainActivity, CameraActivity::class.java)
             startActivity(intent)
         }
@@ -30,8 +30,11 @@ class MainActivity : AppCompatActivity() {
 
     @Subscribe
     fun onEvent(event: CustomEvent){
-        Toast.makeText(this@MainActivity, "Event received", Toast.LENGTH_LONG).show()
         image.setImageBitmap(event.bitmap)
+        if (event.bitmap.height < event.bitmap.width){
+            val rotation = 90
+            image.rotation = rotation.toFloat()
+        }
     }
 
     override fun onStart() {
