@@ -51,7 +51,6 @@ class CameraActivity : AppCompatActivity() {
         camera_capture_button.setOnClickListener { takePhoto() }
 
         outputDirectory = getOutputDirectory()
-
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
@@ -74,16 +73,22 @@ class CameraActivity : AppCompatActivity() {
             outputOptions,
             ContextCompat.getMainExecutor(this),
             object : ImageCapture.OnImageSavedCallback {
+
+
                 override fun onError(exc: ImageCaptureException) {
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
+                    val rotationDegrees = 0
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
+                    //val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
                     val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
+                    rotateImage(photoBitmap, rotationDegrees.toFloat())
+
                     val event: CustomEvent = CustomEvent(photoBitmap)
                     EventBus.getDefault().post(event)
 
@@ -149,6 +154,12 @@ class CameraActivity : AppCompatActivity() {
     private fun convertFileToBitmap(file: File): Bitmap{
         val filePath: String = file.absolutePath.toString()
         return BitmapFactory.decodeFile(filePath)
+    }
+
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
 
     override fun onDestroy() {
