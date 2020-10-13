@@ -86,6 +86,7 @@ class CameraActivity : AppCompatActivity() {
                     val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
                     val event: CustomEvent = CustomEvent(photoBitmap)
                     EventBus.getDefault().post(event)
+
                 }
             })
         finish()
