@@ -1,6 +1,7 @@
 package com.example.bestb4
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -48,7 +49,11 @@ class CameraActivity : AppCompatActivity() {
         }
 
 
-        camera_capture_button.setOnClickListener { takePhoto() }
+        camera_capture_button.setOnClickListener {
+            takePhoto()
+            var intent = Intent(this@CameraActivity, CreateItem::class.java)
+            startActivity(intent)
+        }
 
         outputDirectory = getOutputDirectory()
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -80,7 +85,7 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val rotationDegrees = 0
+                    val rotationDegrees = 90
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
@@ -90,11 +95,10 @@ class CameraActivity : AppCompatActivity() {
                     val newBitmap:Bitmap = rotateImage(photoBitmap, rotationDegrees.toFloat())
 
                     val event: BitmapEvent = BitmapEvent(newBitmap)
-                    EventBus.getDefault().post(event)
+                    EventBus.getDefault().postSticky(event)
 
                 }
             })
-        finish()
     }
 
     private fun startCamera() {

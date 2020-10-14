@@ -30,10 +30,6 @@ class MainActivity : AppCompatActivity() {
     @Subscribe
     fun onEvent(event: BitmapEvent){
         image.setImageBitmap(event.bitmap)
-        if (event.bitmap.height < event.bitmap.width){
-            val rotation = 90
-            image.rotation = rotation.toFloat()
-        }
     }
 
     override fun onStart() {
