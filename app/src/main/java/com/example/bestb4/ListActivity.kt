@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bestb4.data.Events.ClickEvent
+import com.example.bestb4.data.events.ClickEvent
 import com.example.bestb4.data.ListItem
 import kotlinx.android.synthetic.main.activity_list.*
 import org.greenrobot.eventbus.EventBus

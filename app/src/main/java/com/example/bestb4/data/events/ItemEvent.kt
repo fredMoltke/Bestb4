@@ -1,4 +1,4 @@
-package com.example.bestb4.data.Events
+package com.example.bestb4.data.events
 
 import com.example.bestb4.data.ListItem
 

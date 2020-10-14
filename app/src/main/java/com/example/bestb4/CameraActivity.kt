@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +14,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.bestb4.data.events.BitmapEvent
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.greenrobot.eventbus.EventBus
 import java.io.File
@@ -89,7 +89,7 @@ class CameraActivity : AppCompatActivity() {
                     val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
                     val newBitmap:Bitmap = rotateImage(photoBitmap, rotationDegrees.toFloat())
 
-                    val event: CustomEvent = CustomEvent(newBitmap)
+                    val event: BitmapEvent = BitmapEvent(newBitmap)
                     EventBus.getDefault().post(event)
 
                 }
