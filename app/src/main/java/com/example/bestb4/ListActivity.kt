@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bestb4.data.Events.ClickEvent
+import com.example.bestb4.data.ListItem
 import kotlinx.android.synthetic.main.activity_list.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -25,13 +27,14 @@ class ListActivity : AppCompatActivity() {
         recycler_view.setHasFixedSize(true)
     }
 
-    fun insertItem(view: View){
-
-
+    fun insertItem(view: View, position: Int, item: ListItem){
+        itemList.add(position, item)
+        adapter.notifyItemInserted(position)
     }
 
-    fun removeItem(view: View){
-
+    fun removeItem(view: View, position: Int){
+        itemList.removeAt(position)
+        adapter.notifyItemRemoved(position)
     }
 
     @Subscribe
