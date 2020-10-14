@@ -3,9 +3,7 @@ package com.example.bestb4
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -29,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @Subscribe
-    fun onEvent(event: CustomEvent){
+    fun onEvent(event: BitmapEvent){
         image.setImageBitmap(event.bitmap)
         if (event.bitmap.height < event.bitmap.width){
             val rotation = 90

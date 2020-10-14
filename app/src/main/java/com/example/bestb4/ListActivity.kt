@@ -2,22 +2,45 @@ package com.example.bestb4
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_list.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 class ListActivity : AppCompatActivity() {
+
+    private var itemList = ArrayList<ListItem>()
+    private var adapter = ListAdapter(itemList)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        val exampleList = generateDummyList(100)
-        recycler_view.adapter = ListAdapter(exampleList)
+        itemList = generateDummyList(100)
+        adapter = ListAdapter(itemList)
+        recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this)
         recycler_view.setHasFixedSize(true)
     }
 
+    fun insertItem(view: View){
+
+
+    }
+
+    fun removeItem(view: View){
+
+    }
+
+    @Subscribe
+    fun onClickEvent(clickEvent: ClickEvent){
+        Toast.makeText(this, "Item clicked at position ${clickEvent.position}", Toast.LENGTH_SHORT).show()
+    }
+
     // Funktion der opretter liste med dummy items
-    private fun generateDummyList(size: Int): List<ListItem> {
+    private fun generateDummyList(size: Int): ArrayList<ListItem> {
         val list = ArrayList<ListItem>()
 
         for (i in 0 until size) {
@@ -25,5 +48,15 @@ class ListActivity : AppCompatActivity() {
             list += item
         }
         return list
+    }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 }
