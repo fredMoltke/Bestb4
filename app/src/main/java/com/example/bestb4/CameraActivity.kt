@@ -87,9 +87,9 @@ class CameraActivity : AppCompatActivity() {
                     Log.d(TAG, msg)
                     //val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
                     val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
-                    rotateImage(photoBitmap, rotationDegrees.toFloat())
+                    val newBitmap:Bitmap = rotateImage(photoBitmap, rotationDegrees.toFloat())
 
-                    val event: CustomEvent = CustomEvent(photoBitmap)
+                    val event: CustomEvent = CustomEvent(newBitmap)
                     EventBus.getDefault().post(event)
 
                 }
