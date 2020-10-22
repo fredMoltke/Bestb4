@@ -7,7 +7,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.example.bestb4"
+        applicationId "com.app.bestb4"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

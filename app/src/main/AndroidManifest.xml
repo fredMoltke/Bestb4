@@ -13,18 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateItem"></activity>
+        <activity android:name="com.example.bestb4.CreateItem"></activity>
         <activity
-            android:name=".CameraActivity"
+            android:name="com.example.bestb4.CameraActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="com.example.bestb4.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ListActivity"
+            android:name="com.example.bestb4.ListActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.bestb4.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
