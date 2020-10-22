@@ -1,4 +1,4 @@
-package com.example.bestb4
+package com.app.bestb4
 
 import android.Manifest
 import android.content.Intent
@@ -15,7 +15,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.bestb4.data.events.BitmapEvent
+import com.app.bestb4.data.events.BitmapEvent
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.greenrobot.eventbus.EventBus
 import java.io.File
@@ -37,7 +37,7 @@ class CameraActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.bestb4.R.layout.activity_camera)
+        setContentView(com.app.bestb4.R.layout.activity_camera)
 
         // Request camera permissions
         if (allPermissionsGranted()) {
@@ -150,7 +150,7 @@ class CameraActivity : AppCompatActivity() {
 
     private fun getOutputDirectory(): File {
         val mediaDir = externalMediaDirs.firstOrNull()?.let {
-            File(it, resources.getString(com.example.bestb4.R.string.app_name)).apply { mkdirs() } }
+            File(it, resources.getString(com.app.bestb4.R.string.app_name)).apply { mkdirs() } }
         return if (mediaDir != null && mediaDir.exists())
             mediaDir else filesDir
     }

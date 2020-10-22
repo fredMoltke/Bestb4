@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bestb4">
+    package="com.app.bestb4">
 
     <uses-feature android:name="android.hardware.camera.any" />
 
@@ -13,18 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.bestb4.CreateItem"></activity>
+        <activity android:name="com.app.bestb4.CreateItem"></activity>
         <activity
-            android:name="com.example.bestb4.CameraActivity"
+            android:name="com.app.bestb4.CameraActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.example.bestb4.SettingsActivity"
+            android:name="com.app.bestb4.SettingsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.example.bestb4.ListActivity"
+            android:name="com.app.bestb4.ListActivity"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name="com.example.bestb4.MainActivity"
+            android:name="com.app.bestb4.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

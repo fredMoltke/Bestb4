@@ -1,4 +1,4 @@
-package com.example.bestb4.data.events
+package com.app.bestb4.data.events
 
 data class ClickEvent(var position: Int) {
 

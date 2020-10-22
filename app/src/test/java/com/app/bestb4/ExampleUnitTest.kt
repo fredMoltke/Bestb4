@@ -1,4 +1,4 @@
-package com.example.bestb4
+package com.app.bestb4
 
 import org.junit.Test
 

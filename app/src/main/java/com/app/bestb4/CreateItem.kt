@@ -1,4 +1,4 @@
-package com.example.bestb4
+package com.app.bestb4
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import com.airbnb.lottie.LottieAnimationView
-import com.example.bestb4.data.events.BitmapEvent
+import com.app.bestb4.data.events.BitmapEvent
 import kotlinx.android.synthetic.main.activity_create_item.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

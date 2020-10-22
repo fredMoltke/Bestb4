@@ -1,4 +1,4 @@
-package com.example.bestb4
+package com.app.bestb4
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bestb4.data.events.ClickEvent
-import com.example.bestb4.data.ListItem
+import com.app.bestb4.data.events.ClickEvent
+import com.app.bestb4.data.ListItem
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.greenrobot.eventbus.EventBus
 

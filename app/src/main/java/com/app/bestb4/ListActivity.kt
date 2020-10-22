@@ -1,12 +1,12 @@
-package com.example.bestb4
+package com.app.bestb4
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.bestb4.data.events.ClickEvent
-import com.example.bestb4.data.ListItem
+import com.app.bestb4.data.events.ClickEvent
+import com.app.bestb4.data.ListItem
 import kotlinx.android.synthetic.main.activity_list.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
