@@ -1,9 +1,11 @@
 package com.example.bestb4
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.bestb4.data.events.BitmapEvent
 import kotlinx.android.synthetic.main.activity_create_item.*
 import org.greenrobot.eventbus.EventBus
@@ -13,6 +15,7 @@ import org.greenrobot.eventbus.ThreadMode
 class CreateItem : AppCompatActivity() {
 
     private lateinit var image: ImageView
+    private lateinit var animationView: LottieAnimationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +23,12 @@ class CreateItem : AppCompatActivity() {
 
         image = findViewById(R.id.create_item_image_preview)
         image.visibility = View.GONE
+        animationView = findViewById(R.id.create_item_loading_animation)
+        animationView.visibility = View.VISIBLE
 
         confirm_item_btn.setOnClickListener {
             // Opret nyt item
-            finish()
+            addToList() //TODO: TOM FUNKTION, UDARBEJD NOGET. REALM?
         }
         cancel_item_btn.setOnClickListener {
             finish()
@@ -33,6 +38,7 @@ class CreateItem : AppCompatActivity() {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onBitmapEvent(bitmapEvent: BitmapEvent){
         image.setImageBitmap(bitmapEvent.bitmap)
+        animationView.visibility = View.GONE
         image.visibility = View.VISIBLE
     }
 
@@ -43,6 +49,12 @@ class CreateItem : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+        // TODO: Fjern billede så gammelt billede ikke vises når man åbner CreateItem igen
         EventBus.getDefault().unregister(this)
+    }
+
+    private fun addToList(){
+        val intent = Intent(this@CreateItem, ListActivity::class.java)
+        startActivity(intent)
     }
 }
