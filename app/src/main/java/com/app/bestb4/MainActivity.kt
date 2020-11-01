@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import com.app.bestb4.data.events.BitmapEvent
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        Realm.init(applicationContext)
 
 //        button = findViewById<Button>(R.id.openActivity_btn)
         image = findViewById<ImageView>(R.id.imageView)
@@ -25,11 +27,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, CameraActivity::class.java)
             startActivity(intent)
         }
-    }
-
-    @Subscribe
-    fun onEvent(event: BitmapEvent){
-        image.setImageBitmap(event.bitmap)
     }
 
     override fun onStart() {
