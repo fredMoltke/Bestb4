@@ -3,6 +3,8 @@ package com.app.bestb4
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.app.bestb4.data.events.BitmapEvent
 import io.realm.Realm
@@ -12,7 +14,7 @@ import org.greenrobot.eventbus.Subscribe
 
 class MainActivity : AppCompatActivity() {
 
-//    private lateinit var button: Button
+    //    private lateinit var button: Button
     private lateinit var image: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,22 +23,21 @@ class MainActivity : AppCompatActivity() {
 //        Realm.init(applicationContext)
 
 //        button = findViewById<Button>(R.id.openActivity_btn)
-        image = findViewById<ImageView>(R.id.imageView)
 
-        openActivity_btn.setOnClickListener {
-            val intent = Intent(this@MainActivity, CameraActivity::class.java)
-            startActivity(intent)
-        }
-    }
+        val bestAnimation = AnimationUtils.loadAnimation(this, R.anim.best_animation)
+        val b4Animation = AnimationUtils.loadAnimation(this, R.anim.b4_animation)
 
-    override fun onStart() {
-        super.onStart()
-        // Fortæl EventBus at denne aktivitet er interesseret i EventBus events
-        EventBus.getDefault().register(this)
-    }
+        bestTextView.startAnimation(bestAnimation)
+        b4TextView.startAnimation(b4Animation)
 
-    override fun onStop() {
-        super.onStop()
-        EventBus.getDefault().unregister(this)
+        val splashScreenTimeout = 2200
+        val homeIntent = Intent(this@MainActivity, ListActivity::class.java)
+
+        Handler().postDelayed({
+            startActivity(homeIntent)
+            finish()
+        }, splashScreenTimeout.toLong())
+
+
     }
 }
