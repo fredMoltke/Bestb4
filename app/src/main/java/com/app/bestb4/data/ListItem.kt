@@ -1,3 +1,6 @@
 package com.app.bestb4.data
 
-data class ListItem(val imageResource: Int, var text1: String, var text2: String)
+import android.graphics.Bitmap
+import java.util.*
+
+data class ListItem(val id : Long, var name: String, var expiration: Int, var bitmap: Bitmap, var thumbnail: Bitmap, var date: Date)

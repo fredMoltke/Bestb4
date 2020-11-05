@@ -25,10 +25,10 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         val currentItem = exampleList[position]
 
         // Skal ændres for at indsætte billeder fra kamera?
-        holder.imageView.setImageResource(currentItem.imageResource)
+        holder.imageView.setImageBitmap(currentItem.thumbnail)
 
-        holder.textView1.text = currentItem.text1
-        holder.textView2.text = currentItem.text2
+        holder.textView1.text = currentItem.name
+        holder.textView2.text = currentItem.expiration.toString()
     }
 
     override fun getItemCount() = exampleList.size

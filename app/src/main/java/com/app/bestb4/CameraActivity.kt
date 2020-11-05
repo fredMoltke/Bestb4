@@ -15,7 +15,7 @@ import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.app.bestb4.data.events.BitmapEvent
+import com.app.bestb4.data.events.PhotoEvent
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.greenrobot.eventbus.EventBus
 import java.io.File
@@ -93,10 +93,9 @@ class CameraActivity : AppCompatActivity() {
                     //val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
                     val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
                     val newBitmap:Bitmap = rotateImage(photoBitmap, rotationDegrees.toFloat())
-
-                    val event: BitmapEvent = BitmapEvent(newBitmap)
+                    val date = Calendar.getInstance().time
+                    val event: PhotoEvent = PhotoEvent(newBitmap, date)
                     EventBus.getDefault().postSticky(event)
-
                 }
             })
     }
@@ -121,11 +120,6 @@ class CameraActivity : AppCompatActivity() {
 
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
-                .also {
-                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
-                        Log.d(TAG, "Average luminosity: $luma")
-                    })
-                }
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
