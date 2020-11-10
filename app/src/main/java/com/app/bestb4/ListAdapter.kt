@@ -28,7 +28,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         holder.imageView.setImageBitmap(currentItem.thumbnail)
 
         holder.textView1.text = currentItem.name
-        holder.textView2.text = currentItem.expiration.toString()
+        holder.textView2.text = "Holdbar i ${currentItem.daysLeft.toString()} dage."
     }
 
     override fun getItemCount() = exampleList.size

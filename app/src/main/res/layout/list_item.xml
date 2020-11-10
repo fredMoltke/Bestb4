@@ -13,6 +13,7 @@
             android:id="@+id/list_item_image_view"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_baseline_fastfood_24" />
 
         <TextView
@@ -20,6 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/list_item_image_view"
+            android:paddingLeft="5dp"
+            android:paddingTop="2dp"
             android:text="Line 1"
             android:textColor="@android:color/black"
             android:textSize="18sp"
@@ -31,6 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/list_item_text_view_1"
             android:layout_toEndOf="@id/list_item_image_view"
+            android:paddingLeft="5dp"
+            android:paddingTop="2dp"
             android:text="Line 2"
             android:textColor="@android:color/black"
             android:textSize="18sp" />

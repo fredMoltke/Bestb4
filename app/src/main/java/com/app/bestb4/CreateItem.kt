@@ -52,6 +52,7 @@ class CreateItem : AppCompatActivity() {
         confirm_item_btn.setOnClickListener {
             // Opret nyt item
             addToList() //TODO: TOM FUNKTION, UDARBEJD NOGET. REALM?
+            finish()
         }
         cancel_item_btn.setOnClickListener {
             finish()
@@ -83,7 +84,7 @@ class CreateItem : AppCompatActivity() {
         val name: String = item_name_edit_text.text.toString()
         val expiration = item_expiration_edit_text.text.toString().toInt()
         val thumbnail = createThumbnail(bitmap)
-        var listItem = ListItem(date.time, name, expiration, bitmap, thumbnail, date)
+        var listItem = ListItem(date.time, name, expiration, bitmap, thumbnail, date, expiration)
         insertItemToRealm(listItem)
         val event: ItemEvent = ItemEvent(listItem)
         EventBus.getDefault().postSticky(event)
@@ -103,6 +104,7 @@ class CreateItem : AppCompatActivity() {
             item.date = listItem.date
             item.bitmapByteArray = bitmapByteArray
             item.thumbnailByteArray = thumbnailByteArray
+            item.daysLeft = listItem.expiration
         }
     }
 

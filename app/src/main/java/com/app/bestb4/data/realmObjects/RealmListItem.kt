@@ -12,4 +12,5 @@ open class RealmListItem: RealmObject() {
     var bitmapByteArray : ByteArray? = null
     var thumbnailByteArray : ByteArray? = null
     var date = Date()
+    var daysLeft = 0
 }

@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         b4TextView.startAnimation(b4Animation)
 
         val splashScreenTimeout = 2200
-        val homeIntent = Intent(this@MainActivity, CameraActivity::class.java)
+        val homeIntent = Intent(this@MainActivity, ListActivity::class.java)
 
         Handler().postDelayed({
             startActivity(homeIntent)
