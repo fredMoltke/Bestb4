@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
 import io.realm.Realm
+import io.sentry.Sentry
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         bestTextView.startAnimation(bestAnimation)
         b4TextView.startAnimation(b4Animation)
 
-        val splashScreenTimeout = 2200
+        val splashScreenTimeout = 2000
         val homeIntent = Intent(this@MainActivity, ListActivity::class.java)
 
         Handler().postDelayed({
