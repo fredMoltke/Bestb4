@@ -211,4 +211,8 @@ class CameraActivity : AppCompatActivity() {
             image.close()
         }
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 }

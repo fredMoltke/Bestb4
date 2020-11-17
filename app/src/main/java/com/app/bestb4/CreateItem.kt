@@ -43,16 +43,18 @@ class CreateItem : AppCompatActivity() {
         animationView.visibility = View.VISIBLE
 
         Realm.init(this)
-        val config = RealmConfiguration.Builder()
-            .name("bestb4.realm")
-            .deleteRealmIfMigrationNeeded()
-            .build()
-        Realm.setDefaultConfiguration(config)
 
         confirm_item_btn.setOnClickListener {
             // Opret nyt item
-            addToList() //TODO: TOM FUNKTION, UDARBEJD NOGET. REALM?
-            finish()
+            if (item_name_edit_text.text.isNullOrEmpty()){
+                Toast.makeText(this, "Indtast navn på vare.", Toast.LENGTH_SHORT).show()
+            }
+            else if (item_expiration_edit_text.text.isNullOrEmpty()){
+                Toast.makeText(this, "Indtast antal dage holdbar efter åbning.", Toast.LENGTH_SHORT).show()
+            } else {
+                addToList()
+                finish()
+            }
         }
         cancel_item_btn.setOnClickListener {
             finish()
