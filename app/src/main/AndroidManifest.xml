@@ -24,7 +24,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.app.bestb4.ListActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
         <activity
             android:name="com.app.bestb4.MainActivity"
             android:screenOrientation="portrait">

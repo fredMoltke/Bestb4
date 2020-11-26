@@ -39,15 +39,13 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
+        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
+
         Realm.init(this)
         val config = RealmConfiguration.Builder()
             .name("bestb4.realm")
             .build()
         Realm.setDefaultConfiguration(config)
-
-        if (itemList.isEmpty()){
-            itemList = ArrayList<ListItem>()
-        }
 
         recyclerView = findViewById(R.id.recycler_view)
         adapter = ListAdapter(itemList)
@@ -102,6 +100,7 @@ class ListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        itemList = insertionSort(itemList)
 //        recyclerView.layoutManager!!.onRestoreInstanceState(recyclerState)
     }
 

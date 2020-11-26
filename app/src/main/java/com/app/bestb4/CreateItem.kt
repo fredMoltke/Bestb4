@@ -68,6 +68,7 @@ class CreateItem : AppCompatActivity() {
         image.setImageBitmap(bitmap)
         animationView.visibility = View.GONE
         image.visibility = View.VISIBLE
+        EventBus.getDefault().removeStickyEvent(photoEvent)
     }
 
     override fun onStart() {

@@ -28,7 +28,13 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         holder.imageView.setImageBitmap(currentItem.thumbnail)
 
         holder.textView1.text = currentItem.name
-        holder.textView2.text = "Holdbar i ${currentItem.daysLeft.toString()} dage."
+        when {
+            currentItem.daysLeft < -1 -> holder.textView2.text = "Udløbet! Holdbarhed overskredet med ${(currentItem.daysLeft)*(-1)} dage."
+            currentItem.daysLeft == -1 -> holder.textView2.text = "Udløbet! Holdbarhed overskredet med ${(currentItem.daysLeft)*(-1)} dag."
+            currentItem.daysLeft == 0 -> holder.textView2.text = "Udløber i dag."
+            currentItem.daysLeft == 1 -> holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dag."
+            else -> holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dage."
+        }
     }
 
     override fun getItemCount() = exampleList.size
