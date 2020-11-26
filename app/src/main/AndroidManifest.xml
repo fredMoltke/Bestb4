@@ -13,20 +13,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="io.sentry.dsn" android:value="https://a78e421ea09f409798921c6eae959d37@o474809.ingest.sentry.io/5511698" />
+        <activity android:name=".InfoActivity"></activity>
 
-        <activity android:name="com.app.bestb4.CreateItem"></activity>
+        <meta-data
+            android:name="io.sentry.dsn"
+            android:value="https://a78e421ea09f409798921c6eae959d37@o474809.ingest.sentry.io/5511698" />
+
+        <activity android:name=".CreateItem" />
         <activity
-            android:name="com.app.bestb4.CameraActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name="com.app.bestb4.SettingsActivity"
+            android:name=".CameraActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.bestb4.ListActivity"
-            android:screenOrientation="portrait" android:launchMode="singleTask"></activity>
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name="com.app.bestb4.MainActivity"
+            android:name=".ListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
