@@ -1,30 +1,29 @@
 package com.app.bestb4
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_list.*
 
-class SettingsActivity : AppCompatActivity() {
+class InfoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.activity_info)
 
 
         open_info_btn.setOnClickListener{
-            var infoIntent = Intent(this@SettingsActivity, InfoActivity::class.java)
+            var infoIntent = Intent(this@InfoActivity, InfoActivity::class.java)
             startActivity(infoIntent)
         }
 
         open_list_btn.setOnClickListener {
-            var listIntent = Intent(this@SettingsActivity, ListActivity::class.java)
+            var listIntent = Intent(this@InfoActivity, ListActivity::class.java)
             startActivity(listIntent)
         }
 
         open_info_btn.setOnClickListener {
-            var settingsIntent =  Intent(this@SettingsActivity, SettingsActivity::class.java)
+            var settingsIntent =  Intent(this@InfoActivity, SettingsActivity::class.java)
             startActivity(settingsIntent)
         }
-
     }
 }

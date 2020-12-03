@@ -39,11 +39,10 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
-
         Realm.init(this)
         val config = RealmConfiguration.Builder()
             .name("bestb4.realm")
+            .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
 
@@ -58,6 +57,21 @@ class ListActivity : AppCompatActivity() {
         open_camera_btn.setOnClickListener {
             var cameraIntent = Intent(this@ListActivity, CameraActivity::class.java)
             startActivity(cameraIntent)
+        }
+
+       open_info_btn.setOnClickListener{
+            var infoIntent = Intent(this@ListActivity, InfoActivity::class.java)
+            startActivity(infoIntent)
+        }
+
+        open_list_btn.setOnClickListener {
+            var listIntent = Intent(this@ListActivity, ListActivity::class.java)
+            startActivity(listIntent)
+        }
+
+        open_settings_btn.setOnClickListener {
+            var settingsIntent =  Intent(this@ListActivity, SettingsActivity::class.java)
+            startActivity(settingsIntent)
         }
 
     }
