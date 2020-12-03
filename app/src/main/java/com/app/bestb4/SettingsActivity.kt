@@ -25,5 +25,6 @@ class SettingsActivity : AppCompatActivity() {
             var settingsIntent =  Intent(this@SettingsActivity, SettingsActivity::class.java)
             startActivity(settingsIntent)
         }
+
     }
 }
