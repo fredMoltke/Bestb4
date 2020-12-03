@@ -50,7 +50,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
                 }
                 else -> {
                     holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dage."
-                    holder.background.setBackgroundColor(Color.parseColor("#58DB00"))
+                    holder.background.setBackgroundColor(Color.parseColor("#8BDB00"))
             }
         }
     }
