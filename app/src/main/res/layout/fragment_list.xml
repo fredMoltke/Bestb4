@@ -9,8 +9,8 @@
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/listtext"
-        android:layout_width="26dp"
-        android:layout_height="27dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="list"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
