@@ -1,12 +1,14 @@
 package com.app.bestb4
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.app.bestb4.fragments.InfoFragment
 import com.app.bestb4.fragments.ListFragment
 import com.app.bestb4.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main_fragment.*
+
 
 class MainFragmentActivity : AppCompatActivity() {
 
@@ -38,5 +40,11 @@ class MainFragmentActivity : AppCompatActivity() {
         transaction.replace(R.id.fragment_container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
+    }
+
+    @Override
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount == 1) replaceFragment(listFragment)
+        else super.onBackPressed()
     }
 }

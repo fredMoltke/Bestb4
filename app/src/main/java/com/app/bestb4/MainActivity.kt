@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
         val splashScreenTimeout = 1900
         val homeIntent = Intent(this@MainActivity, MainFragmentActivity::class.java)
+        homeIntent.flags = homeIntent.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
 
         Handler().postDelayed({
             startActivity(homeIntent)
