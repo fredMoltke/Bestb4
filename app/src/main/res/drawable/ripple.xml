@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--https://stackoverflow.com/questions/7175873/how-to-set-button-click-effect-in-android-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android" android:color="@color/colorGreenPrimaryDark">
+    <item>
+        <selector xmlns:android="http://schemas.android.com/apk/res/android" >
+            <item
+                android:drawable="@color/colorGreenPrimaryDark"
+                android:state_checked="false"/>
+            <item
+                android:drawable="@color/colorGreenPrimary"
+                android:state_checked="true" />
+            <item
+                android:drawable="@color/colorGreenPrimaryDark" />
+
+        </selector>
+    </item>
+</ripple>
