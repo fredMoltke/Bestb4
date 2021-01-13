@@ -13,6 +13,7 @@ import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ItemEvent
 import com.app.bestb4.data.events.PhotoEvent
 import com.app.bestb4.data.realmObjects.RealmListItem
+import com.app.bestb4.fragments.ListFragment
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmQuery
@@ -92,7 +93,7 @@ class CreateItem : AppCompatActivity() {
         val event: ItemEvent = ItemEvent(listItem)
         EventBus.getDefault().postSticky(event)
 
-        val intent = Intent(this@CreateItem, ListActivity::class.java)
+        val intent = Intent(this@CreateItem, MainFragmentActivity::class.java)
         startActivity(intent)
     }
 

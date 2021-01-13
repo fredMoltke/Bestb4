@@ -20,13 +20,12 @@ class MainActivity : AppCompatActivity() {
         b4TextView.startAnimation(b4Animation)
 
         val splashScreenTimeout = 1900
-        val homeIntent = Intent(this@MainActivity, ListActivity::class.java)
+        val homeIntent = Intent(this@MainActivity, MainFragmentActivity::class.java)
 
         Handler().postDelayed({
             startActivity(homeIntent)
             finish()
         }, splashScreenTimeout.toLong())
-
 
     }
 }

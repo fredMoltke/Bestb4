@@ -1,14 +1,18 @@
-package com.app.bestb4
+package com.app.bestb4.fragments
 
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.app.bestb4.*
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.events.ItemEvent
@@ -16,7 +20,7 @@ import com.app.bestb4.data.realmObjects.RealmListItem
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmQuery
-import kotlinx.android.synthetic.main.activity_list.*
+import kotlinx.android.synthetic.main.fragment_list.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -25,8 +29,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
-
-class ListActivity : AppCompatActivity() {
+class ListFragment : Fragment() {
 
     private var itemList = ArrayList<ListItem>()
     private var adapter = ListAdapter(itemList)
@@ -35,44 +38,43 @@ class ListActivity : AppCompatActivity() {
     private val LIST_STATE_KEY: String = "LIST_STATE"
     val realm by lazy { Realm.getDefaultInstance() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_list)
 
-        Realm.init(this)
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        val view = inflater!!.inflate(R.layout.fragment_list, container, false)
+        return view
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+       Realm.init(activity)
         val config = RealmConfiguration.Builder()
             .name("bestb4.realm")
             .deleteRealmIfMigrationNeeded()
             .build()
         Realm.setDefaultConfiguration(config)
 
-        recyclerView = findViewById(R.id.recycler_view)
-        adapter = ListAdapter(insertionSort(itemList))
+
+
+        recyclerView = view.findViewById(R.id.recycler_view)
+        adapter = ListAdapter(itemList)
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
 
         recyclerState = (recyclerView.layoutManager as LinearLayoutManager).onSaveInstanceState()!!
 
         open_camera_btn.setOnClickListener {
-            var cameraIntent = Intent(this@ListActivity, CameraActivity::class.java)
+            var cameraIntent = Intent(activity, CameraActivity::class.java)
             startActivity(cameraIntent)
         }
 
-       open_info_btn.setOnClickListener{
-            var infoIntent = Intent(this@ListActivity, InfoActivity::class.java)
-            startActivity(infoIntent)
-        }
-
-        open_list_btn.setOnClickListener {
-            var listIntent = Intent(this@ListActivity, ListActivity::class.java)
-            startActivity(listIntent)
-        }
-
-        open_settings_btn.setOnClickListener {
-            var settingsIntent =  Intent(this@ListActivity, SettingsActivity::class.java)
-            startActivity(settingsIntent)
-        }
 
     }
 
@@ -88,7 +90,7 @@ class ListActivity : AppCompatActivity() {
 
     @Subscribe
     fun onClickEvent(clickEvent: ClickEvent){
-        Toast.makeText(this, "Trykket på item ${clickEvent.position + 1}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, "Trykket på item ${clickEvent.position + 1}", Toast.LENGTH_SHORT).show()
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -109,15 +111,17 @@ class ListActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
+//        recyclerState = (recyclerView.layoutManager as LinearLayoutManager).onSaveInstanceState()!!
     }
 
     override fun onResume() {
         super.onResume()
         itemList = insertionSort(itemList)
+//        recyclerView.layoutManager!!.onRestoreInstanceState(recyclerState)
     }
 
- //   https://chercher.tech/kotlin/insertion-sort-kotlin TODO: check
- // Sorter liste fra kortest til længest holdbarhed (relativt til åbningsdato og holdbarhed efter åbning)
+    //   https://chercher.tech/kotlin/insertion-sort-kotlin TODO: check
+// Sorter liste fra kortest til længest holdbarhed (relativt til åbningsdato og holdbarhed efter åbning)
     private fun insertionSort(list: ArrayList<ListItem>) : ArrayList<ListItem>{
         if (list.isEmpty() || list.size<2) return list
 
@@ -152,8 +156,8 @@ class ListActivity : AppCompatActivity() {
         val items: RealmQuery<RealmListItem>? = realm.where(RealmListItem::class.java)
         items?.findAll()?.forEach{
             var item : ListItem = ListItem(it.id, it.name, it.expiration,
-            byteArrayToBitmap(it.bitmapByteArray), byteArrayToBitmap(it.thumbnailByteArray),
-            it.date, it.daysLeft)
+                byteArrayToBitmap(it.bitmapByteArray), byteArrayToBitmap(it.thumbnailByteArray),
+                it.date, it.daysLeft)
         }
         return list
     }
@@ -171,7 +175,7 @@ class ListActivity : AppCompatActivity() {
 //        return Bitmap.createBitmap(w, h, conf)
 //    }
 
-    // Funktion der opretter liste med dummy items
+// Funktion der opretter liste med dummy items
 //    private fun generateDummyList(size: Int): ArrayList<ListItem> {
 //        val list = ArrayList<ListItem>()
 //
@@ -213,6 +217,5 @@ class ListActivity : AppCompatActivity() {
 //
 //        return arrayList
 //    }
-
 
 }
