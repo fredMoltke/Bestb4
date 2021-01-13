@@ -47,7 +47,7 @@ class ListActivity : AppCompatActivity() {
         Realm.setDefaultConfiguration(config)
 
         recyclerView = findViewById(R.id.recycler_view)
-        adapter = ListAdapter(itemList)
+        adapter = ListAdapter(insertionSort(itemList))
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
@@ -109,13 +109,11 @@ class ListActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-//        recyclerState = (recyclerView.layoutManager as LinearLayoutManager).onSaveInstanceState()!!
     }
 
     override fun onResume() {
         super.onResume()
         itemList = insertionSort(itemList)
-//        recyclerView.layoutManager!!.onRestoreInstanceState(recyclerState)
     }
 
  //   https://chercher.tech/kotlin/insertion-sort-kotlin TODO: check

@@ -77,5 +77,4 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
             }
         }
     }
-
 }
