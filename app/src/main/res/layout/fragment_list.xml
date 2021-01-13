@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:clipToPadding="false"
         android:padding="4dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,20 +20,18 @@
         app:layout_constraintVertical_bias="0.446"
         tools:listitem="@layout/list_item" />
 
-    <Button
-        android:id="@+id/open_camera_btn"
-        android:layout_width="78dp"
-        android:layout_height="81dp"
-        android:background="@drawable/camerabtn"
-        android:elevation="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.872" />
-
-
+        <Button
+            android:id="@+id/open_camera_btn"
+            android:layout_width="61dp"
+            android:layout_height="63dp"
+            android:background="@drawable/cameraicon"
+            android:elevation="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.953"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.975" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
