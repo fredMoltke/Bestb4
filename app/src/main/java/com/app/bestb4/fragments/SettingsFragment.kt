@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.app.bestb4.R
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_list.listtext
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 class SettingsFragment : Fragment() {
