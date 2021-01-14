@@ -15,7 +15,11 @@ import com.airbnb.lottie.LottieAnimationView
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ItemEvent
 import com.app.bestb4.data.events.PhotoEvent
+import com.app.bestb4.room.AppDatabase
+import com.app.bestb4.room.DatabaseBuilder
 import kotlinx.android.synthetic.main.activity_create_item.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -28,12 +32,14 @@ class CreateItem : AppCompatActivity() {
     private lateinit var image: ImageView
     private lateinit var animationView: LottieAnimationView
     private lateinit var date: Date
-    private lateinit var bitmap: Bitmap
+    private lateinit var db: AppDatabase
     private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_item)
+
+        db = DatabaseBuilder.get(this)
 
         image = findViewById(R.id.create_item_image_preview)
         image.visibility = View.GONE
@@ -83,7 +89,9 @@ class CreateItem : AppCompatActivity() {
         val expiration = item_expiration_edit_text.text.toString().toInt()
         var listItem = ListItem(0, name, expiration, imageUri, date, expiration)
 
-        //TODO: Prøvede at sætte overstående ListItem ind i databasen her
+        GlobalScope.launch {
+            db.listItemDao().insert(listItem)
+        }
 
         val event: ItemEvent = ItemEvent(listItem)
         EventBus.getDefault().postSticky(event)
@@ -96,10 +104,6 @@ class CreateItem : AppCompatActivity() {
         val thumbnailSize = 320
         return ThumbnailUtils.extractThumbnail(bitmap, thumbnailSize, thumbnailSize)
     }
-
-//    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//    imageData = baos.toByteArray();
 
     private fun convertBitmapToByteArray(bitmap: Bitmap) : ByteArray {
         lateinit var byteArray: ByteArray

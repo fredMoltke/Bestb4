@@ -14,7 +14,11 @@ import com.app.bestb4.*
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.events.ItemEvent
+import com.app.bestb4.room.AppDatabase
+import com.app.bestb4.room.DatabaseBuilder
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -28,6 +32,7 @@ class ListFragment : Fragment() {
     private var adapter = ListAdapter(itemList)
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerState: Parcelable
+    private lateinit var db: AppDatabase
 
 
     override fun onCreateView(
@@ -36,16 +41,18 @@ class ListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_list, container, false)
-        return view
 
+        db = DatabaseBuilder.get(view.context)
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
-
-        // TODO: Check om nuværende item liste (til recyclerview) er tomt. Hvis ja, hent fra database
+        val dbItemList = getListItemsFromDb()
+        itemList = insertionSort(dbItemList)
 
         recyclerView = view.findViewById(R.id.recycler_view)
         adapter = ListAdapter(itemList)
@@ -87,7 +94,6 @@ class ListFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
-        // TODO: Check om nuværende item liste (til recyclerview) er tomt. Hvis ja, hent fra database
     }
 
     override fun onStop() {
@@ -129,5 +135,13 @@ class ListFragment : Fragment() {
             TimeUnit.MILLISECONDS
         )
         return item.expiration - differenceInDays.toInt()
+    }
+
+    private fun getListItemsFromDb() : ArrayList<ListItem>{
+        var itemList = ArrayList<ListItem>()
+        GlobalScope.launch {
+            itemList = db.listItemDao().getAll() as ArrayList<ListItem>
+        }
+        return itemList
     }
 }
