@@ -23,11 +23,13 @@ class MainFragmentActivity : AppCompatActivity() {
         replaceFragment(listFragment)
 
 
+        // if statements her checker om det nuværende fragment der vises trykkes på i navigationbar.
+        // Sørger for backstack ikke fyldes med fragments
         bottom_nav.setOnNavigationItemSelectedListener{
             when(it.itemId){
-                R.id.ic_list -> replaceFragment(listFragment)
-                R.id.ic_settings -> replaceFragment(settingsFragment)
-                R.id.ic_info -> replaceFragment(infoFragment)
+                R.id.ic_list -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != listFragment) replaceFragment(listFragment)
+                R.id.ic_settings -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != settingsFragment) replaceFragment(settingsFragment)
+                R.id.ic_info -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != infoFragment) replaceFragment(infoFragment)
 
             }
             true
@@ -44,7 +46,11 @@ class MainFragmentActivity : AppCompatActivity() {
 
     @Override
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount == 1) replaceFragment(listFragment)
+        // Sørger for, at man ikke kan forlade appen ved backspace, når man navigerer igennem fragments
+        // TODO: Lav setting, som kan ændre det til, at man godt kan lukke appen med backspace
+        if(supportFragmentManager.backStackEntryCount == 1){
+            replaceFragment(listFragment)
+        }
         else super.onBackPressed()
     }
 }
