@@ -51,6 +51,11 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.2"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.2"
 
+    // Preferences
+    def preference_version = "1.1.1"
+    implementation "androidx.preference:preference-ktx:$preference_version"
+
+   
     // EventBus
     implementation 'org.greenrobot:eventbus:3.2.0'
 
