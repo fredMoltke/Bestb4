@@ -3,8 +3,11 @@ package com.app.bestb4.fragments
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,9 +19,6 @@ import com.app.bestb4.*
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.events.ItemEvent
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmQuery
 import kotlinx.android.synthetic.main.fragment_list.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -149,6 +149,19 @@ class ListFragment : Fragment() {
         val arrayInputStream = ByteArrayInputStream(byteArray)
         return BitmapFactory.decodeStream(arrayInputStream)
     }
+
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
+    }
+
+    private fun convertUriToBitmap(imageUri: Uri) : Bitmap{
+
+        val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, imageUri)
+        return rotateImage(bitmap, 90F)
+    }
+
 //    fun generateBitmap() : Bitmap{
 //        val w: Int = 320
 //        val h: Int = 320

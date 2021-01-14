@@ -1,5 +1,10 @@
 package com.app.bestb4
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.net.Uri
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,13 +30,13 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val currentItem = exampleList[position]
-
-        // Skal ændres for at indsætte billeder fra kamera?
-//        holder.imageView.setImageBitmap(currentItem.thumbnail)
-
-
         holder.textView1.text = currentItem.name
         val context = holder.background.context
+
+
+        val bitmap = convertUriToBitmap(currentItem.uri, context)
+        holder.imageView.setImageBitmap(bitmap)
+
         when {
                 currentItem.daysLeft < -1 -> {
                     holder.textView2.text = "Udløbet! Holdbarhed overskredet med ${(currentItem.daysLeft)*(-1)} dage."
@@ -81,5 +86,17 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
                 EventBus.getDefault().post(clickEvent)
             }
         }
+    }
+
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
+    }
+
+    private fun convertUriToBitmap(imageUri: Uri, context : Context) : Bitmap {
+
+        val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
+        return rotateImage(bitmap, 90F)
     }
 }
