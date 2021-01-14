@@ -22,6 +22,7 @@ class MainFragmentActivity : AppCompatActivity() {
 
 
         bottom_nav.setOnNavigationItemSelectedListener{
+
             when(it.itemId){
                 R.id.ic_list -> replaceFragment(listFragment)
                 R.id.ic_settings -> replaceFragment(settingsFragment)
@@ -33,10 +34,11 @@ class MainFragmentActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
+        
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, fragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
 
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 }
