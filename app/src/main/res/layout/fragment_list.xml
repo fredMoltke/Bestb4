@@ -22,7 +22,7 @@
 
     <Button
         android:id="@+id/open_camera_btn"
-        android:layout_width="67dp"
+        android:layout_width="69dp"
         android:layout_height="69dp"
         android:background="@drawable/camerabtn"
         android:elevation="10dp"
@@ -32,6 +32,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.975" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="71dp"
+        android:layout_height="71dp"
+        app:layout_constraintBottom_toBottomOf="@+id/open_camera_btn"
+        app:layout_constraintEnd_toEndOf="@+id/open_camera_btn"
+        app:layout_constraintStart_toStartOf="@+id/open_camera_btn"
+        app:layout_constraintTop_toTopOf="@+id/open_camera_btn"
+        app:srcCompat="@drawable/black_circle" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

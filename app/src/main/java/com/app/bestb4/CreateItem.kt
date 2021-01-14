@@ -62,6 +62,7 @@ class CreateItem : AppCompatActivity() {
         }
     }
 
+    // IGNORE
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onPhotoEvent(photoEvent: PhotoEvent){
         date = photoEvent.date
@@ -72,24 +73,26 @@ class CreateItem : AppCompatActivity() {
         EventBus.getDefault().removeStickyEvent(photoEvent)
     }
 
+    // IGNORE
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
     }
 
+    // IGNORE
     override fun onStop() {
         super.onStop()
-        // TODO: Fjern billede så gammelt billede ikke vises når man åbner CreateItem igen
         EventBus.getDefault().unregister(this)
     }
 
     private fun addToList(){
-        // TODO: Fejlhåndtering, forkert input i edit text
         val name: String = item_name_edit_text.text.toString()
         val expiration = item_expiration_edit_text.text.toString().toInt()
         val thumbnail = createThumbnail(bitmap)
         var listItem = ListItem(date.time, name, expiration, bitmap, thumbnail, date, expiration)
-        insertItemToRealm(listItem)
+
+        //TODO: Prøvede at sætte overstående ListItem ind i databasen her
+
         val event: ItemEvent = ItemEvent(listItem)
         EventBus.getDefault().postSticky(event)
 
@@ -97,7 +100,7 @@ class CreateItem : AppCompatActivity() {
         startActivity(intent)
     }
 
-//    name: String, expiration: Int, bitmap: Bitmap, thumbnail: Bitmap
+    // TODO: Gammel database metode
     private fun insertItemToRealm(listItem: ListItem){
         val bitmapByteArray = convertBitmapToByteArray(listItem.bitmap)
         val thumbnailByteArray = convertBitmapToByteArray(listItem.thumbnail)
@@ -112,6 +115,7 @@ class CreateItem : AppCompatActivity() {
         }
     }
 
+    //TODO: Gammel database metode
     private fun getItemsFromRealm(){
         val items: RealmQuery<RealmListItem>? = realm.where(RealmListItem::class.java)
         items?.findAll()?.forEach{
@@ -120,6 +124,7 @@ class CreateItem : AppCompatActivity() {
         }
     }
 
+    // IGNORE
     private fun createThumbnail(bitmap: Bitmap) : Bitmap {
         val thumbnailSize = 320
         return ThumbnailUtils.extractThumbnail(bitmap, thumbnailSize, thumbnailSize)
@@ -129,6 +134,7 @@ class CreateItem : AppCompatActivity() {
 //    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 //    imageData = baos.toByteArray();
 
+    // IGNORE
     private fun convertBitmapToByteArray(bitmap: Bitmap) : ByteArray {
         lateinit var byteArray: ByteArray
         try {

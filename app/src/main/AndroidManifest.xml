@@ -13,11 +13,11 @@
         android:roundIcon="@mipmap/b4icon2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainFragmentActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask">
-
-        </activity>
+        <activity android:name=".EditItemAcitivity"></activity>
+        <activity
+            android:name=".MainFragmentActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="io.sentry.dsn"
@@ -27,7 +27,6 @@
         <activity
             android:name=".CameraActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">

@@ -62,6 +62,8 @@ class ListFragment : Fragment() {
 
 
 
+        // TODO: Check om nuværende item liste (til recyclerview) er tomt. Hvis ja, hent fra database
+
         recyclerView = view.findViewById(R.id.recycler_view)
         adapter = ListAdapter(itemList)
         recyclerView.adapter = adapter
@@ -86,6 +88,7 @@ class ListFragment : Fragment() {
     fun removeItem(position: Int){
         itemList.removeAt(position)
         adapter.notifyItemRemoved(position)
+        // TODO: item skal også fjernes fra database
     }
 
     @Subscribe
@@ -93,35 +96,42 @@ class ListFragment : Fragment() {
         Toast.makeText(activity, "Trykket på item ${clickEvent.position + 1}", Toast.LENGTH_SHORT).show()
     }
 
+    // IGNORE
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onItemEvent(itemEvent: ItemEvent){
         insertItem(itemEvent.item)
         EventBus.getDefault().removeStickyEvent(itemEvent)
     }
 
+    // IGNORE
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
+        // TODO: Check om nuværende item liste (til recyclerview) er tomt. Hvis ja, hent fra database
     }
 
+    // IGNORE
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
 
+    // IGNORE
     override fun onPause() {
         super.onPause()
 //        recyclerState = (recyclerView.layoutManager as LinearLayoutManager).onSaveInstanceState()!!
     }
 
+    // IGNORE
     override fun onResume() {
         super.onResume()
         itemList = insertionSort(itemList)
 //        recyclerView.layoutManager!!.onRestoreInstanceState(recyclerState)
     }
 
-    //   https://chercher.tech/kotlin/insertion-sort-kotlin TODO: check
-// Sorter liste fra kortest til længest holdbarhed (relativt til åbningsdato og holdbarhed efter åbning)
+    // IGNORE
+    //   https://chercher.tech/kotlin/insertion-sort-kotlin
+    // Sorter liste fra kortest til længest holdbarhed (relativt til åbningsdato og holdbarhed efter åbning)
     private fun insertionSort(list: ArrayList<ListItem>) : ArrayList<ListItem>{
         if (list.isEmpty() || list.size<2) return list
 
@@ -151,6 +161,7 @@ class ListFragment : Fragment() {
         return item.expiration - differenceInDays.toInt()
     }
 
+    // TODO: Gammel databasemetode
     private fun getItemsFromRealm(): ArrayList<ListItem>{
         var list = ArrayList<ListItem>()
         val items: RealmQuery<RealmListItem>? = realm.where(RealmListItem::class.java)
@@ -162,6 +173,7 @@ class ListFragment : Fragment() {
         return list
     }
 
+    // IGNORE
     fun byteArrayToBitmap(byteArray: ByteArray?): Bitmap {
         val arrayInputStream = ByteArrayInputStream(byteArray)
         return BitmapFactory.decodeStream(arrayInputStream)
