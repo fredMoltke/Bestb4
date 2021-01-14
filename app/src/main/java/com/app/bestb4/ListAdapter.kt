@@ -1,17 +1,14 @@
 package com.app.bestb4
 
-import android.content.res.Resources
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.ListItem
+import com.app.bestb4.data.events.ClickEvent
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.greenrobot.eventbus.EventBus
 
@@ -30,7 +27,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         val currentItem = exampleList[position]
 
         // Skal ændres for at indsætte billeder fra kamera?
-        holder.imageView.setImageBitmap(currentItem.thumbnail)
+//        holder.imageView.setImageBitmap(currentItem.thumbnail)
 
 
         holder.textView1.text = currentItem.name

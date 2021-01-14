@@ -91,10 +91,10 @@ class CameraActivity : AppCompatActivity() {
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
                     //val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
-                    val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
-                    val newBitmap:Bitmap = rotateImage(photoBitmap, rotationDegrees.toFloat())
+//                    val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
+//                    val newBitmap:Bitmap = rotateImage(photoBitmap, rotationDegrees.toFloat())
                     val date = Calendar.getInstance().time
-                    val event: PhotoEvent = PhotoEvent(newBitmap, date)
+                    val event: PhotoEvent = PhotoEvent(savedUri, date)
                     EventBus.getDefault().postSticky(event)
                 }
             })

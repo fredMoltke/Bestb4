@@ -3,28 +3,24 @@ package com.app.bestb4
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.ThumbnailUtils
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ItemEvent
 import com.app.bestb4.data.events.PhotoEvent
-import com.app.bestb4.data.realmObjects.RealmListItem
-import com.app.bestb4.fragments.ListFragment
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmQuery
-import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_create_item.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
 import java.util.*
+
 
 class CreateItem : AppCompatActivity() {
 
@@ -32,7 +28,7 @@ class CreateItem : AppCompatActivity() {
     private lateinit var animationView: LottieAnimationView
     private lateinit var date: Date
     private lateinit var bitmap: Bitmap
-    val realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var imageUri: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +39,6 @@ class CreateItem : AppCompatActivity() {
         animationView = findViewById(R.id.create_item_loading_animation)
         animationView.visibility = View.VISIBLE
 
-        Realm.init(this)
 
         confirm_item_btn.setOnClickListener {
             // Opret nyt item
@@ -62,24 +57,21 @@ class CreateItem : AppCompatActivity() {
         }
     }
 
-    // IGNORE
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onPhotoEvent(photoEvent: PhotoEvent){
         date = photoEvent.date
-        bitmap = photoEvent.bitmap
-        image.setImageBitmap(bitmap)
+        imageUri = photoEvent.imageUri
+        image.setImageBitmap(convertUriToBitmap(imageUri))
         animationView.visibility = View.GONE
         image.visibility = View.VISIBLE
         EventBus.getDefault().removeStickyEvent(photoEvent)
     }
 
-    // IGNORE
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
     }
 
-    // IGNORE
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
@@ -88,8 +80,7 @@ class CreateItem : AppCompatActivity() {
     private fun addToList(){
         val name: String = item_name_edit_text.text.toString()
         val expiration = item_expiration_edit_text.text.toString().toInt()
-        val thumbnail = createThumbnail(bitmap)
-        var listItem = ListItem(date.time, name, expiration, bitmap, thumbnail, date, expiration)
+        var listItem = ListItem(0, name, expiration, imageUri, date, expiration)
 
         //TODO: Prøvede at sætte overstående ListItem ind i databasen her
 
@@ -100,31 +91,6 @@ class CreateItem : AppCompatActivity() {
         startActivity(intent)
     }
 
-    // TODO: Gammel database metode
-    private fun insertItemToRealm(listItem: ListItem){
-        val bitmapByteArray = convertBitmapToByteArray(listItem.bitmap)
-        val thumbnailByteArray = convertBitmapToByteArray(listItem.thumbnail)
-        realm.executeTransaction {
-            val item: RealmListItem = realm.createObject(RealmListItem::class.java, listItem.id)
-            item.name = listItem.name
-            item.expiration = listItem.expiration
-            item.date = listItem.date
-            item.bitmapByteArray = bitmapByteArray
-            item.thumbnailByteArray = thumbnailByteArray
-            item.daysLeft = listItem.expiration
-        }
-    }
-
-    //TODO: Gammel database metode
-    private fun getItemsFromRealm(){
-        val items: RealmQuery<RealmListItem>? = realm.where(RealmListItem::class.java)
-        items?.findAll()?.forEach{
-            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
-
-        }
-    }
-
-    // IGNORE
     private fun createThumbnail(bitmap: Bitmap) : Bitmap {
         val thumbnailSize = 320
         return ThumbnailUtils.extractThumbnail(bitmap, thumbnailSize, thumbnailSize)
@@ -134,7 +100,6 @@ class CreateItem : AppCompatActivity() {
 //    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 //    imageData = baos.toByteArray();
 
-    // IGNORE
     private fun convertBitmapToByteArray(bitmap: Bitmap) : ByteArray {
         lateinit var byteArray: ByteArray
         try {
@@ -145,5 +110,11 @@ class CreateItem : AppCompatActivity() {
             e.printStackTrace()
         }
         return byteArray
+    }
+
+    private fun convertUriToBitmap(imageUri: Uri) : Bitmap{
+
+        return MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+
     }
 }

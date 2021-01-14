@@ -16,7 +16,6 @@ import com.app.bestb4.*
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.events.ItemEvent
-import com.app.bestb4.data.realmObjects.RealmListItem
 import io.realm.Realm
 import io.realm.RealmConfiguration
 import io.realm.RealmQuery
@@ -35,9 +34,6 @@ class ListFragment : Fragment() {
     private var adapter = ListAdapter(itemList)
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerState: Parcelable
-    private val LIST_STATE_KEY: String = "LIST_STATE"
-    val realm by lazy { Realm.getDefaultInstance() }
-
 
 
     override fun onCreateView(
@@ -52,13 +48,6 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-       Realm.init(activity)
-        val config = RealmConfiguration.Builder()
-            .name("bestb4.realm")
-            .deleteRealmIfMigrationNeeded()
-            .build()
-        Realm.setDefaultConfiguration(config)
 
 
 
@@ -103,33 +92,28 @@ class ListFragment : Fragment() {
         EventBus.getDefault().removeStickyEvent(itemEvent)
     }
 
-    // IGNORE
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
         // TODO: Check om nuværende item liste (til recyclerview) er tomt. Hvis ja, hent fra database
     }
 
-    // IGNORE
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
     }
 
-    // IGNORE
     override fun onPause() {
         super.onPause()
 //        recyclerState = (recyclerView.layoutManager as LinearLayoutManager).onSaveInstanceState()!!
     }
 
-    // IGNORE
     override fun onResume() {
         super.onResume()
         itemList = insertionSort(itemList)
 //        recyclerView.layoutManager!!.onRestoreInstanceState(recyclerState)
     }
 
-    // IGNORE
     //   https://chercher.tech/kotlin/insertion-sort-kotlin
     // Sorter liste fra kortest til længest holdbarhed (relativt til åbningsdato og holdbarhed efter åbning)
     private fun insertionSort(list: ArrayList<ListItem>) : ArrayList<ListItem>{
@@ -161,19 +145,6 @@ class ListFragment : Fragment() {
         return item.expiration - differenceInDays.toInt()
     }
 
-    // TODO: Gammel databasemetode
-    private fun getItemsFromRealm(): ArrayList<ListItem>{
-        var list = ArrayList<ListItem>()
-        val items: RealmQuery<RealmListItem>? = realm.where(RealmListItem::class.java)
-        items?.findAll()?.forEach{
-            var item : ListItem = ListItem(it.id, it.name, it.expiration,
-                byteArrayToBitmap(it.bitmapByteArray), byteArrayToBitmap(it.thumbnailByteArray),
-                it.date, it.daysLeft)
-        }
-        return list
-    }
-
-    // IGNORE
     fun byteArrayToBitmap(byteArray: ByteArray?): Bitmap {
         val arrayInputStream = ByteArrayInputStream(byteArray)
         return BitmapFactory.decodeStream(arrayInputStream)
