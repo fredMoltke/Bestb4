@@ -1,5 +1,6 @@
 package com.app.bestb4
 
+import android.content.res.Resources
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.ListItem
@@ -15,6 +17,7 @@ import org.greenrobot.eventbus.EventBus
 
 // Guide brugt til implementering: https://www.youtube.com/watch?v=afl_i6uvvU0
 class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.list_item,
@@ -31,26 +34,31 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
 
 
         holder.textView1.text = currentItem.name
+        val context = holder.background.context
         when {
                 currentItem.daysLeft < -1 -> {
                     holder.textView2.text = "Udløbet! Holdbarhed overskredet med ${(currentItem.daysLeft)*(-1)} dage."
-                    holder.background.setBackgroundColor(Color.parseColor("#CF3700"))
+//                    holder.background.setBackgroundColor(Color.parseColor("#CF3700"))
+                    holder.background.setBackgroundResource(context.resources.getIdentifier("gradient_expired", "drawable", context?.packageName))
                 }
                 currentItem.daysLeft == -1 -> {
                     holder.textView2.text = "Udløbet! Holdbarhed overskredet med ${(currentItem.daysLeft)*(-1)} dag."
-                    holder.background.setBackgroundColor(Color.parseColor("#CF6E00"))
+//                    holder.background.setBackgroundColor(Color.parseColor("#CF6E00"))
+                    holder.background.setBackgroundResource(context.resources.getIdentifier("gradient_expired", "drawable", context?.packageName))
                 }
                 currentItem.daysLeft == 0 -> {
                     holder.textView2.text = "Udløber i dag."
-                    holder.background.setBackgroundColor(Color.parseColor("#DBD000"))
+//                    holder.background.setBackgroundColor(Color.parseColor("#DBD000"))
+                    holder.background.setBackgroundResource(context.resources.getIdentifier("gradient_zero", "drawable", context?.packageName))
                 }
                 currentItem.daysLeft == 1 -> {
                     holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dag."
-                    holder.background.setBackgroundColor(Color.parseColor("#C5DB00"))
+                    holder.background.setBackgroundResource(context.resources.getIdentifier("gradient_close", "drawable", context?.packageName))
                 }
                 else -> {
                     holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dage."
-                    holder.background.setBackgroundColor(Color.parseColor("#8BDB00"))
+//                    holder.background.setBackgroundColor(Color.parseColor("#8BDB00"))
+                    holder.background.setBackgroundResource(context.resources.getIdentifier("gradient_fresh", "drawable", context?.packageName))
             }
         }
     }
