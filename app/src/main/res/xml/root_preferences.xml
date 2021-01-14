@@ -13,13 +13,14 @@
             app:summaryOff="Notifications OFF"/>
 
         <SeekBarPreference
+            app:key="volume_notifications"
             app:dependency="notifications"
             app:summaryOff="@string/attachment_summary_off"
             app:summaryOn="@string/attachment_summary_on"
-            app:key="volume_notifications"
             app:title="Volume"
             app:showSeekBarValue="true"
             app:defaultValue= "0" />
+
 
 
     </PreferenceCategory>

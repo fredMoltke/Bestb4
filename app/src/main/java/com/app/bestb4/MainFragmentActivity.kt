@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.app.bestb4.fragments.InfoFragment
 import com.app.bestb4.fragments.ListFragment
 import com.app.bestb4.fragments.SettingsFragment
@@ -22,7 +23,6 @@ class MainFragmentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_fragment)
         replaceFragment(listFragment)
 
-
         // if statements her checker om det nuværende fragment der vises trykkes på i navigationbar.
         // Sørger for backstack ikke fyldes med fragments
         bottom_nav.setOnNavigationItemSelectedListener{
@@ -35,6 +35,7 @@ class MainFragmentActivity : AppCompatActivity() {
             }
             true
         }
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -55,4 +56,5 @@ class MainFragmentActivity : AppCompatActivity() {
         }
         else super.onBackPressed()
     }
+
 }
