@@ -34,6 +34,7 @@ class CreateItem : AppCompatActivity() {
     private lateinit var date: Date
     private lateinit var db: AppDatabase
     private lateinit var imageUri: Uri
+    private lateinit var filePath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +69,7 @@ class CreateItem : AppCompatActivity() {
     fun onPhotoEvent(photoEvent: PhotoEvent){
         date = photoEvent.date
         imageUri = photoEvent.imageUri
+        filePath = photoEvent.filePath
         image.setImageBitmap(convertUriToBitmap(imageUri))
         animationView.visibility = View.GONE
         image.visibility = View.VISIBLE
@@ -87,7 +89,7 @@ class CreateItem : AppCompatActivity() {
     private fun addToList(){
         val name: String = item_name_edit_text.text.toString()
         val expiration = item_expiration_edit_text.text.toString().toInt()
-        var listItem = ListItem(0, name, expiration, imageUri, date, expiration)
+        var listItem = ListItem(0, name, expiration, imageUri, date, expiration, filePath)
 
         GlobalScope.launch {
             db.listItemDao().insert(listItem)

@@ -13,5 +13,6 @@ data class ListItem(
     var expiration: Int,
     var uri: Uri,
     var date: Date,
-    var daysLeft : Int
+    var daysLeft : Int,
+    var filePath: String
     )

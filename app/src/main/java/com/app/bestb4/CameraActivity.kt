@@ -86,11 +86,11 @@ class CameraActivity : AppCompatActivity() {
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
+//                    val msg = "Photo capture succeeded: $savedUri"
+//                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//                    Log.d(TAG, msg)
                     val date = Calendar.getInstance().time
-                    val event: PhotoEvent = PhotoEvent(savedUri, date)
+                    val event: PhotoEvent = PhotoEvent(savedUri, photoFile.toString(), date)
                     EventBus.getDefault().postSticky(event)
                 }
             })
