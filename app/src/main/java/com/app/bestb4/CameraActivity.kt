@@ -85,14 +85,10 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val rotationDegrees = 90
                     val savedUri = Uri.fromFile(photoFile)
                     val msg = "Photo capture succeeded: $savedUri"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
-                    //val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
-//                    val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
-//                    val newBitmap:Bitmap = rotateImage(photoBitmap, rotationDegrees.toFloat())
                     val date = Calendar.getInstance().time
                     val event: PhotoEvent = PhotoEvent(savedUri, date)
                     EventBus.getDefault().postSticky(event)

@@ -14,6 +14,7 @@ import com.app.bestb4.*
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.events.ItemEvent
+import com.app.bestb4.data.events.ItemListEvent
 import com.app.bestb4.room.AppDatabase
 import com.app.bestb4.room.DatabaseBuilder
 import kotlinx.android.synthetic.main.fragment_list.*
@@ -22,6 +23,8 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.File
+import java.net.URI
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -31,7 +34,6 @@ class ListFragment : Fragment() {
     private var itemList = ArrayList<ListItem>()
     private var adapter = ListAdapter(itemList)
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerState: Parcelable
     private lateinit var db: AppDatabase
 
 
@@ -50,17 +52,11 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val dbItemList = getListItemsFromDb()
-        itemList = insertionSort(dbItemList)
-
         recyclerView = view.findViewById(R.id.recycler_view)
-        adapter = ListAdapter(itemList)
-        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
-
-        recyclerState = (recyclerView.layoutManager as LinearLayoutManager).onSaveInstanceState()!!
+        adapter = ListAdapter(itemList)
+        recyclerView.adapter = adapter
 
         open_camera_btn.setOnClickListener {
             var cameraIntent = Intent(activity, CameraActivity::class.java)
@@ -75,20 +71,36 @@ class ListFragment : Fragment() {
     }
 
     fun removeItem(position: Int){
-        itemList.removeAt(position)
-        adapter.notifyItemRemoved(position)
-        // TODO: item skal også fjernes fra database
+        GlobalScope.launch {
+            val uriToDelete = itemList[position].uri
+            db.listItemDao().delete(itemList[position])
+            itemList.removeAt(position)
+            adapter.notifyItemRemoved(position)
+        }
     }
+
 
     @Subscribe
     fun onClickEvent(clickEvent: ClickEvent){
-        Toast.makeText(activity, "Trykket på item ${clickEvent.position + 1}", Toast.LENGTH_SHORT).show()
+        removeItem(clickEvent.position)
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onItemEvent(itemEvent: ItemEvent){
         insertItem(itemEvent.item)
+        itemList = insertionSort(itemList)
+        adapter.notifyDataSetChanged()
         EventBus.getDefault().removeStickyEvent(itemEvent)
+    }
+
+    // Eventbus henter listitems sendt fra splash screen
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    fun onItemListEvent(itemListEvent: ItemListEvent){
+        itemList = insertionSort(itemListEvent.items)
+        EventBus.getDefault().removeStickyEvent(itemListEvent)
+        adapter = ListAdapter(itemList)
+        recyclerView.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
     override fun onStart() {
@@ -99,11 +111,6 @@ class ListFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         EventBus.getDefault().unregister(this)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        itemList = insertionSort(itemList)
     }
 
     //   https://chercher.tech/kotlin/insertion-sort-kotlin
@@ -135,13 +142,5 @@ class ListFragment : Fragment() {
             TimeUnit.MILLISECONDS
         )
         return item.expiration - differenceInDays.toInt()
-    }
-
-    private fun getListItemsFromDb() : ArrayList<ListItem>{
-        var itemList = ArrayList<ListItem>()
-        GlobalScope.launch {
-            itemList = db.listItemDao().getAll() as ArrayList<ListItem>
-        }
-        return itemList
     }
 }
