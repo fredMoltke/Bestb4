@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/b4icon2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditItemAcitivity"></activity>
+        <activity android:name=".EditItemActivity"></activity>
         <activity
             android:name=".MainFragmentActivity"
             android:launchMode="singleTask"

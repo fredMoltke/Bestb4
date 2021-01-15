@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
     android:layout_margin="4dp"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    app:cardElevation="10dp"
+    app:cardMaxElevation="10dp">
 
     <RelativeLayout
         android:id="@+id/item_layout"
@@ -14,8 +16,8 @@
 
         <ImageView
             android:id="@+id/list_item_image_view"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="70dp"
+            android:layout_height="80dp"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_baseline_fastfood_24" />
 
@@ -24,13 +26,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/list_item_image_view"
+            android:elevation="10dp"
+            android:fontFamily="@font/opensansregular"
             android:paddingLeft="5dp"
             android:paddingTop="2dp"
             android:text="Line 1"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:elevation="10dp"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/list_item_text_view_2"
@@ -38,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/list_item_text_view_1"
             android:layout_toEndOf="@id/list_item_image_view"
+            android:fontFamily="@font/opensansregular"
             android:paddingLeft="5dp"
             android:paddingTop="2dp"
             android:text="Line 2"
