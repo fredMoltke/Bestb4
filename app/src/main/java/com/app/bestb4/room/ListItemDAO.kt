@@ -9,10 +9,13 @@ interface ListItemDAO {
     fun getAll(): List<ListItem>
 
     @Query("SELECT * FROM ListItem WHERE id IN (:ids)")
-    fun getAllByIds(ids: IntArray): List<ListItem>
+    fun getAllByIds(ids: LongArray): List<ListItem>
 
     @Query("SELECT * FROM ListItem WHERE id = :ids")
-    fun getById(ids: Int): ListItem?
+    fun getById(ids: Long): ListItem?
+
+    @Query("DELETE FROM ListItem WHERE id=:itemId")
+    fun deleteById(itemId: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(listItem: ListItem)

@@ -7,10 +7,10 @@ class DatabaseBuilder {
     companion object{
         private var db: AppDatabase? = null
 
-        fun get(context: Context): AppDatabase {
+        fun get(context: Context?): AppDatabase {
             if(db == null){
                 db = Room.databaseBuilder(
-                    context.applicationContext,
+                    context!!.applicationContext,
                     AppDatabase::class.java,
                     "BestB4Database"
                 ).fallbackToDestructiveMigration().

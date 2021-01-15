@@ -17,7 +17,6 @@ import org.greenrobot.eventbus.EventBus
 class MainActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
-    private lateinit var itemList: ArrayList<ListItem>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +37,10 @@ class MainActivity : AppCompatActivity() {
         var dbListItems = ArrayList<ListItem>()
         GlobalScope.launch {
             dbListItems = db.listItemDao().getAll() as ArrayList<ListItem>
-            itemList = dbListItems
-            val itemListEvent: ItemListEvent = ItemListEvent(itemList)
-            EventBus.getDefault().postSticky(itemListEvent)
+            if (dbListItems.isNotEmpty()){
+                val itemListEvent: ItemListEvent = ItemListEvent(dbListItems)
+                EventBus.getDefault().postSticky(itemListEvent)
+            }
         }
 
         Handler().postDelayed({

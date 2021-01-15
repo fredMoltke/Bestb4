@@ -209,6 +209,8 @@ class CameraActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        val homeIntent = Intent(this@CameraActivity, MainFragmentActivity::class.java)
+        homeIntent.flags = homeIntent.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
         super.onBackPressed()
     }
 }

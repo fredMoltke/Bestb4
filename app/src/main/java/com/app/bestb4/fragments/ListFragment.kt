@@ -2,13 +2,10 @@ package com.app.bestb4.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcelable
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bestb4.*
@@ -24,9 +21,6 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.File
-import java.lang.Exception
-import java.net.URI
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -36,7 +30,7 @@ class ListFragment : Fragment() {
     private var itemList = ArrayList<ListItem>()
     private var adapter = ListAdapter(itemList)
     private lateinit var recyclerView: RecyclerView
-    private lateinit var db: AppDatabase
+//    private lateinit var db: AppDatabase
 
 
     override fun onCreateView(
@@ -45,15 +39,13 @@ class ListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_list, container, false)
-
-        db = DatabaseBuilder.get(view.context)
-
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        db = DatabaseBuilder.get(view.context)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
@@ -74,8 +66,9 @@ class ListFragment : Fragment() {
 
     fun removeItem(position: Int){
         GlobalScope.launch {
+            val db = DatabaseBuilder.get(activity?.applicationContext)
             val filePathToDelete = itemList[position].filePath
-            db.listItemDao().delete(itemList[position])
+            db.listItemDao().deleteById(itemList[position].id)
             itemList.removeAt(position)
             adapter.notifyItemRemoved(position)
 //            var file: File = File(filePathToDelete)
