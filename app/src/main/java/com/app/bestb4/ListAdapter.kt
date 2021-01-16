@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bestb4.data.events.ClickEvent
@@ -33,6 +34,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         holder.imageView.setImageBitmap(currentItem.thumbnail)
 
 
+
         holder.textView1.text = currentItem.name
         val context = holder.background.context
         when {
@@ -54,6 +56,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
                 currentItem.daysLeft == 1 -> {
                     holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dag."
                     holder.background.setBackgroundResource(context.resources.getIdentifier("gradient_close", "drawable", context?.packageName))
+
                 }
                 else -> {
                     holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dage."

@@ -25,13 +25,9 @@ import java.util.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-typealias LumaListener = (luma: Double) -> Unit
-
-
 class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null
-
     private lateinit var outputDirectory: File
     private lateinit var cameraExecutor: ExecutorService
 
@@ -169,7 +165,7 @@ class CameraActivity : AppCompatActivity() {
         private const val TAG = "CameraXBasic"
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+        val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }
 
     override fun onRequestPermissionsResult(
@@ -187,28 +183,6 @@ class CameraActivity : AppCompatActivity() {
                 ).show()
                 finish()
             }
-        }
-    }
-
-    private class LuminosityAnalyzer(private val listener: LumaListener) : ImageAnalysis.Analyzer {
-
-        private fun ByteBuffer.toByteArray(): ByteArray {
-            rewind()    // Rewind the buffer to zero
-            val data = ByteArray(remaining())
-            get(data)   // Copy the buffer into a byte array
-            return data // Return the byte array
-        }
-
-        override fun analyze(image: ImageProxy) {
-
-            val buffer = image.planes[0].buffer
-            val data = buffer.toByteArray()
-            val pixels = data.map { it.toInt() and 0xFF }
-            val luma = pixels.average()
-
-            listener(luma)
-
-            image.close()
         }
     }
 
