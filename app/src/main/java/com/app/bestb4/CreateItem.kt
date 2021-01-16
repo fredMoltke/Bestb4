@@ -48,7 +48,7 @@ class CreateItem : AppCompatActivity() {
         animationView.visibility = View.VISIBLE
 
 
-        confirm_item_btn.setOnClickListener {
+        createItemConfirmBtn.setOnClickListener {
             // Opret nyt item
             if (item_name_edit_text.text.isNullOrEmpty()){
                 Toast.makeText(this, "Indtast navn på vare.", Toast.LENGTH_SHORT).show()
@@ -60,7 +60,7 @@ class CreateItem : AppCompatActivity() {
                 finish()
             }
         }
-        cancel_item_btn.setOnClickListener {
+        createItemCancelBtn.setOnClickListener {
             finish()
         }
     }

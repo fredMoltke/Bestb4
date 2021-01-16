@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bestb4.*
@@ -21,6 +24,7 @@ import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -30,6 +34,11 @@ class ListFragment : Fragment() {
     private var itemList = ArrayList<ListItem>()
     private var adapter = ListAdapter(itemList)
     private lateinit var recyclerView: RecyclerView
+    private lateinit var icon: ImageView
+    private lateinit var background: ImageView
+    private lateinit var welcomeTitle: TextView
+    private lateinit var welcomeText: TextView
+
 //    private lateinit var db: AppDatabase
 
 
@@ -39,6 +48,12 @@ class ListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_list, container, false)
+
+        icon = view.findViewById(R.id.listWelcomeIcon)
+        background = view.findViewById(R.id.listWelcomeBackground)
+        welcomeTitle = view.findViewById(R.id.listWelcomeTitleTextView)
+        welcomeText = view.findViewById(R.id.listWelcomeTextView)
+
         return view
     }
 
@@ -51,6 +66,9 @@ class ListFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
         adapter = ListAdapter(itemList)
         recyclerView.adapter = adapter
+
+        // TODO: Skift boolean ud med first time boolean
+        showWelcome(itemList.isEmpty())
 
         open_camera_btn.setOnClickListener {
             var cameraIntent = Intent(activity, CameraActivity::class.java)
@@ -68,15 +86,19 @@ class ListFragment : Fragment() {
         GlobalScope.launch {
             val db = DatabaseBuilder.get(activity?.applicationContext)
             val filePathToDelete = itemList[position].filePath
-            db.listItemDao().deleteById(itemList[position].id)
+            val id : Long = itemList[position].id
+            db.listItemDao().deleteById(id)
+            if (db.listItemDao().getById(id) != null){
+                db.listItemDao().deleteById(id)
+            }
             itemList.removeAt(position)
             adapter.notifyItemRemoved(position)
-//            var file: File = File(filePathToDelete)
-//            try {
-//                file.delete()
-//            }catch (e: Exception){
-//                Toast.makeText(activity, "Image failed to delete", Toast.LENGTH_SHORT).show()
-//            }
+            var file: File = File(filePathToDelete)
+            try {
+                file.delete()
+            }catch (e: Exception){
+                Toast.makeText(activity, "Image failed to delete", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -92,6 +114,7 @@ class ListFragment : Fragment() {
         itemList = insertionSort(itemList)
         adapter.notifyDataSetChanged()
         EventBus.getDefault().removeStickyEvent(itemEvent)
+        showWelcome(itemList.isEmpty())
     }
 
     // Eventbus henter listitems sendt fra splash screen
@@ -144,4 +167,19 @@ class ListFragment : Fragment() {
         )
         return item.expiration - differenceInDays.toInt()
     }
+
+    private fun showWelcome(boolean: Boolean){
+        if (boolean){
+            icon.visibility = View.VISIBLE
+            background.visibility = View.VISIBLE
+            welcomeText.visibility = View.VISIBLE
+            welcomeTitle.visibility = View.VISIBLE
+        } else {
+            icon.visibility = View.GONE
+            background.visibility = View.GONE
+            welcomeText.visibility = View.GONE
+            welcomeTitle.visibility = View.GONE
+        }
+    }
+
 }
