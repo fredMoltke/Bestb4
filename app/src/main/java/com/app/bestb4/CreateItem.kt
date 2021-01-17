@@ -1,12 +1,15 @@
 package com.app.bestb4
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
@@ -29,6 +32,7 @@ import java.util.*
 
 class CreateItem : AppCompatActivity() {
 
+    private lateinit var bitmap: Bitmap
     private lateinit var image: ImageView
     private lateinit var animationView: LottieAnimationView
     private lateinit var date: Date
@@ -70,7 +74,8 @@ class CreateItem : AppCompatActivity() {
         date = photoEvent.date
         imageUri = photoEvent.imageUri
         filePath = photoEvent.filePath
-        image.setImageBitmap(convertUriToBitmap(imageUri))
+        bitmap = convertUriToBitmap(imageUri)
+        image.setImageBitmap(bitmap)
         animationView.visibility = View.GONE
         image.visibility = View.VISIBLE
         EventBus.getDefault().removeStickyEvent(photoEvent)
@@ -91,7 +96,8 @@ class CreateItem : AppCompatActivity() {
         animationView.visibility = View.VISIBLE
         val name: String = item_name_edit_text.text.toString()
         val expiration = item_expiration_edit_text.text.toString().toInt()
-        var listItem = ListItem(date.time, name, expiration, imageUri, date, expiration, filePath)
+        val thumbnail = convertBitmapToByteArray(createThumbnail(bitmap))
+        var listItem = ListItem(date.time, name, expiration, imageUri, date, expiration, filePath, thumbnail)
 
         GlobalScope.launch {
             db.listItemDao().insert(listItem)
@@ -127,9 +133,16 @@ class CreateItem : AppCompatActivity() {
         return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
     }
 
-    private fun convertUriToBitmap(imageUri: Uri) : Bitmap{
 
-        val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
-        return rotateImage(bitmap, 90F)
+    private fun convertUriToBitmap(imageUri: Uri): Bitmap {
+
+        try {
+            val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+            return rotateImage(bitmap, 90F)
+        } catch (e: java.lang.Exception) {
+            Log.e("ListAdapter", "Error bitmap")
+        }
+        return BitmapFactory.decodeResource(resources, R.drawable.diskette)
     }
+
 }

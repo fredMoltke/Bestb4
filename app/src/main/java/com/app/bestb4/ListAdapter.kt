@@ -2,6 +2,7 @@ package com.app.bestb4
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.provider.MediaStore
@@ -17,6 +18,7 @@ import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.greenrobot.eventbus.EventBus
+import java.io.ByteArrayOutputStream
 import java.lang.Exception
 
 // Guide brugt til implementering: https://www.youtube.com/watch?v=afl_i6uvvU0
@@ -38,8 +40,8 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         val context = holder.background.context
 
 
-        val bitmap = convertUriToBitmap(currentItem.uri, context)
-        if (bitmap != null) holder.imageView.setImageBitmap(bitmap)
+        val bitmap = decodeByteArray(currentItem.thumbnailByteArray)
+        holder.imageView.setImageBitmap(bitmap)
 
         when {
             currentItem.daysLeft < -1 -> {
@@ -133,11 +135,27 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
     private fun convertUriToBitmap(imageUri: Uri, context: Context): Bitmap? {
 
         try {
-            val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
+            val bitmap = compressBitmap(MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri), 50)
             return rotateImage(bitmap, 90F)
         } catch (e: Exception) {
             Log.e("ListAdapter", "Error bitmap")
         }
         return null
     }
+
+    private fun compressBitmap(bitmap:Bitmap, quality:Int):Bitmap{
+        val stream = ByteArrayOutputStream()
+
+//            **** reference source developer.android.com ***
+        bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
+
+        val byteArray = stream.toByteArray()
+
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    }
+
+    private fun decodeByteArray(byteArray: ByteArray):Bitmap{
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    }
+
 }

@@ -16,7 +16,6 @@ import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.events.ItemEvent
 import com.app.bestb4.data.events.ItemListEvent
-import com.app.bestb4.room.AppDatabase
 import com.app.bestb4.room.DatabaseBuilder
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.coroutines.GlobalScope

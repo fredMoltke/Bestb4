@@ -14,5 +14,6 @@ data class ListItem(
     var uri: Uri,
     var date: Date,
     var daysLeft : Int,
-    var filePath: String
+    var filePath: String,
+    var thumbnailByteArray: ByteArray
     )
