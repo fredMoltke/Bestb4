@@ -8,8 +8,8 @@ class NotificationSchedule (var context: Context, var params: WorkerParameters) 
 
     override fun doWork(): Result {
         val data = params.inputData
-        val title = "Check your fridge"
-        val body = data.getString("An item is expiring soon!")
+        val title = "A title"
+        val body = data.getString("A msg")
 
         TriggerNotification(context, title, body)
 
