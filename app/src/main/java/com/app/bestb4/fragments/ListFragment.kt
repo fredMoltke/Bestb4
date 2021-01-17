@@ -112,9 +112,10 @@ class ListFragment : Fragment() {
     fun onItemEvent(itemEvent: ItemEvent){
         insertItem(itemEvent.item)
         itemList = insertionSort(itemList)
+        showWelcome(itemList.isEmpty())
         adapter.notifyDataSetChanged()
         EventBus.getDefault().removeStickyEvent(itemEvent)
-        showWelcome(itemList.isEmpty())
+
     }
 
     // Eventbus henter listitems sendt fra splash screen
@@ -123,6 +124,7 @@ class ListFragment : Fragment() {
         itemList = insertionSort(itemListEvent.items)
         EventBus.getDefault().removeStickyEvent(itemListEvent)
         adapter = ListAdapter(itemList)
+        showWelcome(itemList.isEmpty())
         recyclerView.adapter = adapter
         adapter.notifyDataSetChanged()
     }
