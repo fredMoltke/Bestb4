@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:clipToPadding="false"
-        android:padding="4dp"
+        android:padding="1dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -24,27 +24,27 @@
 
     <Button
         android:id="@+id/open_camera_btn"
-        android:layout_width="69dp"
-        android:layout_height="69dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/camerabtn"
         android:elevation="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.951"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
+        app:layout_constraintBottom_toBottomOf="@+id/blackCircle"
+        app:layout_constraintEnd_toEndOf="@+id/blackCircle"
+        app:layout_constraintStart_toStartOf="@+id/blackCircle"
+        app:layout_constraintTop_toTopOf="@+id/blackCircle" />
 
     <ImageView
         android:id="@+id/blackCircle"
-        android:layout_width="71dp"
-        android:layout_height="71dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:elevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/open_camera_btn"
-        app:layout_constraintEnd_toEndOf="@+id/open_camera_btn"
-        app:layout_constraintStart_toStartOf="@+id/open_camera_btn"
-        app:layout_constraintTop_toTopOf="@+id/open_camera_btn"
-        app:srcCompat="@drawable/black_circle" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.975"
+        app:srcCompat="@drawable/camerabtn_circle" />
 
     <ImageView
         android:id="@+id/listWelcomeBackground"

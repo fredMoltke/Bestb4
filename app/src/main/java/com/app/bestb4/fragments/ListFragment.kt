@@ -67,9 +67,6 @@ class ListFragment : Fragment() {
         adapter = ListAdapter(itemList)
         recyclerView.adapter = adapter
 
-        // TODO: Skift boolean ud med first time boolean
-        showWelcome(itemList.isEmpty())
-
         open_camera_btn.setOnClickListener {
             var cameraIntent = Intent(activity, CameraActivity::class.java)
             startActivity(cameraIntent)
@@ -112,9 +109,9 @@ class ListFragment : Fragment() {
     fun onItemEvent(itemEvent: ItemEvent){
         insertItem(itemEvent.item)
         itemList = insertionSort(itemList)
+        showWelcome(itemList.isEmpty())
         adapter.notifyDataSetChanged()
         EventBus.getDefault().removeStickyEvent(itemEvent)
-        showWelcome(itemList.isEmpty())
     }
 
     // Eventbus henter listitems sendt fra splash screen
@@ -124,6 +121,8 @@ class ListFragment : Fragment() {
         EventBus.getDefault().removeStickyEvent(itemListEvent)
         adapter = ListAdapter(itemList)
         recyclerView.adapter = adapter
+        // TODO: Skift boolean ud med first time boolean
+        showWelcome(itemList.isEmpty())
         adapter.notifyDataSetChanged()
     }
 

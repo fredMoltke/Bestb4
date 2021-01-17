@@ -5,8 +5,8 @@
     android:layout_height="100dp"
     android:layout_margin="4dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="10dp"
-    app:cardMaxElevation="10dp">
+    app:cardElevation="5dp"
+    app:cardMaxElevation="5dp">
 
     <RelativeLayout
         android:id="@+id/item_layout"
@@ -19,7 +19,7 @@
             android:layout_width="70dp"
             android:layout_height="80dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/ic_baseline_fastfood_24" />
+            android:src="@drawable/diskette" />
 
         <TextView
             android:id="@+id/list_item_text_view_1"
