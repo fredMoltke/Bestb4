@@ -87,6 +87,8 @@ class CreateItem : AppCompatActivity() {
     }
 
     private fun addToList(){
+        image.visibility = View.GONE
+        animationView.visibility = View.VISIBLE
         val name: String = item_name_edit_text.text.toString()
         val expiration = item_expiration_edit_text.text.toString().toInt()
         var listItem = ListItem(date.time, name, expiration, imageUri, date, expiration, filePath)

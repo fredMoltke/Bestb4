@@ -1,8 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!--https://stackoverflow.com/questions/7175873/how-to-set-button-click-effect-in-android-->
-    <item android:state_focused="true" android:state_pressed="false" android:drawable="@drawable/cancel" />
-    <item android:state_focused="true" android:state_pressed="true" android:drawable="@drawable/gradientcamerabtn" />
-    <item android:state_focused="false" android:state_pressed="true" android:drawable="@drawable/gradientcamerabtn" />
-    <item android:drawable="@drawable/cancel"/>
-</selector>

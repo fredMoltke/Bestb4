@@ -24,27 +24,16 @@
 
     <Button
         android:id="@+id/open_camera_btn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/camerabtn"
-        android:elevation="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/blackCircle"
-        app:layout_constraintEnd_toEndOf="@+id/blackCircle"
-        app:layout_constraintStart_toStartOf="@+id/blackCircle"
-        app:layout_constraintTop_toTopOf="@+id/blackCircle" />
-
-    <ImageView
-        android:id="@+id/blackCircle"
-        android:layout_width="72dp"
+        android:layout_width="73dp"
         android:layout_height="72dp"
-        android:elevation="0dp"
+        android:background="@drawable/newest_camerabtn"
+        android:elevation="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975"
-        app:srcCompat="@drawable/camerabtn_circle" />
+        app:layout_constraintVertical_bias="0.975" />
 
     <ImageView
         android:id="@+id/listWelcomeBackground"

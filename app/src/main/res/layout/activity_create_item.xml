@@ -10,6 +10,7 @@
         android:id="@+id/create_item_image_preview"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,8 +19,9 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/create_item_loading_animation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +144,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/createItemCancelBtn"
-        app:srcCompat="@drawable/confirmbtn" />
+        app:srcCompat="@drawable/newest_confirmbtn" />
 
     <ImageView
         android:id="@+id/createItemCancelBtn"
@@ -153,5 +155,5 @@
         app:layout_constraintEnd_toStartOf="@+id/createItemConfirmBtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/cancelbtn" />
+        app:srcCompat="@drawable/newest_cancelbtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
