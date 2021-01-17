@@ -1,14 +1,13 @@
 package com.app.bestb4.fragments
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,15 +15,16 @@ import com.app.bestb4.*
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
 import com.app.bestb4.data.events.ItemEvent
-import com.app.bestb4.data.realmObjects.RealmListItem
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmQuery
+import com.app.bestb4.data.events.ItemListEvent
+import com.app.bestb4.room.AppDatabase
+import com.app.bestb4.room.DatabaseBuilder
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.io.ByteArrayInputStream
+import java.io.File
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
@@ -34,10 +34,12 @@ class ListFragment : Fragment() {
     private var itemList = ArrayList<ListItem>()
     private var adapter = ListAdapter(itemList)
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerState: Parcelable
-    private val LIST_STATE_KEY: String = "LIST_STATE"
-    val realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var icon: ImageView
+    private lateinit var background: ImageView
+    private lateinit var welcomeTitle: TextView
+    private lateinit var welcomeText: TextView
 
+//    private lateinit var db: AppDatabase
 
 
     override fun onCreateView(
@@ -46,35 +48,29 @@ class ListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater!!.inflate(R.layout.fragment_list, container, false)
-        return view
 
+        icon = view.findViewById(R.id.listWelcomeIcon)
+        background = view.findViewById(R.id.listWelcomeBackground)
+        welcomeTitle = view.findViewById(R.id.listWelcomeTitleTextView)
+        welcomeText = view.findViewById(R.id.listWelcomeTextView)
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       Realm.init(activity)
-        val config = RealmConfiguration.Builder()
-            .name("bestb4.realm")
-            .deleteRealmIfMigrationNeeded()
-            .build()
-        Realm.setDefaultConfiguration(config)
-
-
-
+//        db = DatabaseBuilder.get(view.context)
         recyclerView = view.findViewById(R.id.recycler_view)
-        adapter = ListAdapter(itemList)
-        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
-
-        recyclerState = (recyclerView.layoutManager as LinearLayoutManager).onSaveInstanceState()!!
+        adapter = ListAdapter(itemList)
+        recyclerView.adapter = adapter
 
         open_camera_btn.setOnClickListener {
             var cameraIntent = Intent(activity, CameraActivity::class.java)
             startActivity(cameraIntent)
         }
-
 
     }
 
@@ -84,19 +80,50 @@ class ListFragment : Fragment() {
     }
 
     fun removeItem(position: Int){
-        itemList.removeAt(position)
-        adapter.notifyItemRemoved(position)
+        GlobalScope.launch {
+            val db = DatabaseBuilder.get(activity?.applicationContext)
+            val filePathToDelete = itemList[position].filePath
+            val id : Long = itemList[position].id
+            db.listItemDao().deleteById(id)
+            if (db.listItemDao().getById(id) != null){
+                db.listItemDao().deleteById(id)
+            }
+            itemList.removeAt(position)
+            adapter.notifyItemRemoved(position)
+            var file: File = File(filePathToDelete)
+            try {
+                file.delete()
+            }catch (e: Exception){
+                Toast.makeText(activity, "Image failed to delete", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
+
 
     @Subscribe
     fun onClickEvent(clickEvent: ClickEvent){
-        Toast.makeText(activity, "Trykket på item ${clickEvent.position + 1}", Toast.LENGTH_SHORT).show()
+        removeItem(clickEvent.position)
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onItemEvent(itemEvent: ItemEvent){
         insertItem(itemEvent.item)
+        itemList = insertionSort(itemList)
+        showWelcome(itemList.isEmpty())
+        adapter.notifyDataSetChanged()
         EventBus.getDefault().removeStickyEvent(itemEvent)
+    }
+
+    // Eventbus henter listitems sendt fra splash screen
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    fun onItemListEvent(itemListEvent: ItemListEvent){
+        itemList = insertionSort(itemListEvent.items)
+        EventBus.getDefault().removeStickyEvent(itemListEvent)
+        adapter = ListAdapter(itemList)
+        recyclerView.adapter = adapter
+        // TODO: Skift boolean ud med first time boolean
+        showWelcome(itemList.isEmpty())
+        adapter.notifyDataSetChanged()
     }
 
     override fun onStart() {
@@ -109,19 +136,8 @@ class ListFragment : Fragment() {
         EventBus.getDefault().unregister(this)
     }
 
-    override fun onPause() {
-        super.onPause()
-//        recyclerState = (recyclerView.layoutManager as LinearLayoutManager).onSaveInstanceState()!!
-    }
-
-    override fun onResume() {
-        super.onResume()
-        itemList = insertionSort(itemList)
-//        recyclerView.layoutManager!!.onRestoreInstanceState(recyclerState)
-    }
-
-    //   https://chercher.tech/kotlin/insertion-sort-kotlin TODO: check
-// Sorter liste fra kortest til længest holdbarhed (relativt til åbningsdato og holdbarhed efter åbning)
+    //   https://chercher.tech/kotlin/insertion-sort-kotlin
+    // Sorter liste fra kortest til længest holdbarhed (relativt til åbningsdato og holdbarhed efter åbning)
     private fun insertionSort(list: ArrayList<ListItem>) : ArrayList<ListItem>{
         if (list.isEmpty() || list.size<2) return list
 
@@ -151,71 +167,18 @@ class ListFragment : Fragment() {
         return item.expiration - differenceInDays.toInt()
     }
 
-    private fun getItemsFromRealm(): ArrayList<ListItem>{
-        var list = ArrayList<ListItem>()
-        val items: RealmQuery<RealmListItem>? = realm.where(RealmListItem::class.java)
-        items?.findAll()?.forEach{
-            var item : ListItem = ListItem(it.id, it.name, it.expiration,
-                byteArrayToBitmap(it.bitmapByteArray), byteArrayToBitmap(it.thumbnailByteArray),
-                it.date, it.daysLeft)
+    private fun showWelcome(boolean: Boolean){
+        if (boolean){
+            icon.visibility = View.VISIBLE
+            background.visibility = View.VISIBLE
+            welcomeText.visibility = View.VISIBLE
+            welcomeTitle.visibility = View.VISIBLE
+        } else {
+            icon.visibility = View.GONE
+            background.visibility = View.GONE
+            welcomeText.visibility = View.GONE
+            welcomeTitle.visibility = View.GONE
         }
-        return list
     }
-
-    fun byteArrayToBitmap(byteArray: ByteArray?): Bitmap {
-        val arrayInputStream = ByteArrayInputStream(byteArray)
-        return BitmapFactory.decodeStream(arrayInputStream)
-    }
-//    fun generateBitmap() : Bitmap{
-//        val w: Int = 320
-//        val h: Int = 320
-//
-//        val conf = Bitmap.Config.ARGB_8888 // see other conf types
-//
-//        return Bitmap.createBitmap(w, h, conf)
-//    }
-
-// Funktion der opretter liste med dummy items
-//    private fun generateDummyList(size: Int): ArrayList<ListItem> {
-//        val list = ArrayList<ListItem>()
-//
-//        for (i in 0 until size) {
-//            val item = ListItem(R.drawable.ic_baseline_fastfood_24, "Item $i", "Line 2")
-//            list += item
-//        }
-//        return list
-//    }
-
-//    private fun generateSortingTest(): ArrayList<ListItem> {
-//        val simpleDateFormat = SimpleDateFormat("dd-MM-yyyy")
-//        val d1 = simpleDateFormat.parse("05-11-2020")
-//        val d2 = simpleDateFormat.parse("04-11-2020")
-//        val d3 = simpleDateFormat.parse("06-11-2020")
-//        val d4 = simpleDateFormat.parse("07-11-2020")
-//        val d5 = simpleDateFormat.parse("01-11-2020")
-//        val d6 = simpleDateFormat.parse("03-11-2020")
-//        val d7 = simpleDateFormat.parse("05-11-2020")
-//
-//        val testBitmap : Bitmap = generateBitmap()
-//
-//        val i1 = ListItem(1, "Et", 4, testBitmap, testBitmap, d1)
-//        val i2 = ListItem(2, "Fire", 9, testBitmap, testBitmap, d2)
-//        val i3 = ListItem(3, "To", 4, testBitmap, testBitmap, d3)
-//        val i4 = ListItem(4, "Tre", 4, testBitmap, testBitmap, d4)
-//        val i5 = ListItem(5, "Fem", 22, testBitmap, testBitmap, d5)
-//        val i6 = ListItem(6, "Syv", 23, testBitmap, testBitmap, d6)
-//        val i7 = ListItem(7, "Seks", 19, testBitmap, testBitmap, d7)
-//
-//        var arrayList = ArrayList<ListItem>()
-//        arrayList.add(i1)
-//        arrayList.add(i2)
-//        arrayList.add(i3)
-//        arrayList.add(i4)
-//        arrayList.add(i5)
-//        arrayList.add(i6)
-//        arrayList.add(i7)
-//
-//        return arrayList
-//    }
 
 }

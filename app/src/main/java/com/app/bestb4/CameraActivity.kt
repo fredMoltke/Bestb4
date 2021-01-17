@@ -81,16 +81,12 @@ class CameraActivity : AppCompatActivity() {
                 }
 
                 override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    val rotationDegrees = 90
                     val savedUri = Uri.fromFile(photoFile)
-                    val msg = "Photo capture succeeded: $savedUri"
-                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, msg)
-                    //val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
-                    val photoBitmap: Bitmap = convertFileToBitmap(photoFile)
-                    val newBitmap:Bitmap = rotateImage(photoBitmap, rotationDegrees.toFloat())
+//                    val msg = "Photo capture succeeded: $savedUri"
+//                    Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
+//                    Log.d(TAG, msg)
                     val date = Calendar.getInstance().time
-                    val event: PhotoEvent = PhotoEvent(newBitmap, date)
+                    val event: PhotoEvent = PhotoEvent(savedUri, photoFile.toString(), date)
                     EventBus.getDefault().postSticky(event)
                 }
             })
@@ -187,6 +183,8 @@ class CameraActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        val homeIntent = Intent(this@CameraActivity, MainFragmentActivity::class.java)
+        homeIntent.flags = homeIntent.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
         super.onBackPressed()
     }
 }

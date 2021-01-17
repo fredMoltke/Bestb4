@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:elevation="20dp"
     tools:context="com.app.bestb4.MainFragmentActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:clipToPadding="false"
-        android:padding="4dp"
+        android:padding="1dp"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.446"
@@ -22,16 +24,81 @@
 
     <Button
         android:id="@+id/open_camera_btn"
-        android:layout_width="67dp"
-        android:layout_height="69dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/camerabtn"
-        android:elevation="10dp"
+        android:elevation="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/blackCircle"
+        app:layout_constraintEnd_toEndOf="@+id/blackCircle"
+        app:layout_constraintStart_toStartOf="@+id/blackCircle"
+        app:layout_constraintTop_toTopOf="@+id/blackCircle" />
+
+    <ImageView
+        android:id="@+id/blackCircle"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:elevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.975" />
+        app:layout_constraintVertical_bias="0.975"
+        app:srcCompat="@drawable/camerabtn_circle" />
+
+    <ImageView
+        android:id="@+id/listWelcomeBackground"
+        android:layout_width="0dp"
+        android:layout_height="230dp"
+        android:elevation="50dp"
+        android:src="@drawable/pale_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/listWelcomeTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:elevation="55dp"
+        android:fontFamily="@font/opensanssemibold"
+        android:text="Velkommen til din BestB4 vareliste!"
+        android:textColor="@color/colorGreenPrimaryDark"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/listWelcomeTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:elevation="55dp"
+        android:text="Den ser dog lidt tom ud. Tryk på kamera ikonet under, for at tilføje en vare. "
+        android:textAlignment="center"
+        android:textColor="@color/colorGreenPrimaryDark"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listWelcomeTitleTextView" />
+
+    <ImageView
+        android:id="@+id/listWelcomeIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:elevation="55dp"
+        app:layout_constraintBottom_toTopOf="@+id/listWelcomeTitleTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/b4icon2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

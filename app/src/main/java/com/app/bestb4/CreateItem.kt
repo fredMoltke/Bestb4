@@ -2,50 +2,53 @@ package com.app.bestb4
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.media.ThumbnailUtils
-import androidx.appcompat.app.AppCompatActivity
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.airbnb.lottie.LottieAnimationView
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ItemEvent
 import com.app.bestb4.data.events.PhotoEvent
-import com.app.bestb4.data.realmObjects.RealmListItem
-import com.app.bestb4.fragments.ListFragment
-import io.realm.Realm
-import io.realm.RealmConfiguration
-import io.realm.RealmQuery
-import io.realm.RealmResults
+import com.app.bestb4.room.AppDatabase
+import com.app.bestb4.room.DatabaseBuilder
 import kotlinx.android.synthetic.main.activity_create_item.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.ByteArrayOutputStream
-import java.lang.Exception
 import java.util.*
+
 
 class CreateItem : AppCompatActivity() {
 
     private lateinit var image: ImageView
     private lateinit var animationView: LottieAnimationView
     private lateinit var date: Date
-    private lateinit var bitmap: Bitmap
-    val realm by lazy { Realm.getDefaultInstance() }
+    private lateinit var db: AppDatabase
+    private lateinit var imageUri: Uri
+    private lateinit var filePath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_item)
+
+        db = DatabaseBuilder.get(this)
 
         image = findViewById(R.id.create_item_image_preview)
         image.visibility = View.GONE
         animationView = findViewById(R.id.create_item_loading_animation)
         animationView.visibility = View.VISIBLE
 
-        Realm.init(this)
 
-        confirm_item_btn.setOnClickListener {
+        createItemConfirmBtn.setOnClickListener {
             // Opret nyt item
             if (item_name_edit_text.text.isNullOrEmpty()){
                 Toast.makeText(this, "Indtast navn på vare.", Toast.LENGTH_SHORT).show()
@@ -57,7 +60,7 @@ class CreateItem : AppCompatActivity() {
                 finish()
             }
         }
-        cancel_item_btn.setOnClickListener {
+        createItemCancelBtn.setOnClickListener {
             finish()
         }
     }
@@ -65,8 +68,9 @@ class CreateItem : AppCompatActivity() {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onPhotoEvent(photoEvent: PhotoEvent){
         date = photoEvent.date
-        bitmap = photoEvent.bitmap
-        image.setImageBitmap(bitmap)
+        imageUri = photoEvent.imageUri
+        filePath = photoEvent.filePath
+        image.setImageBitmap(convertUriToBitmap(imageUri))
         animationView.visibility = View.GONE
         image.visibility = View.VISIBLE
         EventBus.getDefault().removeStickyEvent(photoEvent)
@@ -79,17 +83,18 @@ class CreateItem : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        // TODO: Fjern billede så gammelt billede ikke vises når man åbner CreateItem igen
         EventBus.getDefault().unregister(this)
     }
 
     private fun addToList(){
-        // TODO: Fejlhåndtering, forkert input i edit text
         val name: String = item_name_edit_text.text.toString()
         val expiration = item_expiration_edit_text.text.toString().toInt()
-        val thumbnail = createThumbnail(bitmap)
-        var listItem = ListItem(date.time, name, expiration, bitmap, thumbnail, date, expiration)
-        insertItemToRealm(listItem)
+        var listItem = ListItem(date.time, name, expiration, imageUri, date, expiration, filePath)
+
+        GlobalScope.launch {
+            db.listItemDao().insert(listItem)
+        }
+
         val event: ItemEvent = ItemEvent(listItem)
         EventBus.getDefault().postSticky(event)
 
@@ -97,37 +102,10 @@ class CreateItem : AppCompatActivity() {
         startActivity(intent)
     }
 
-//    name: String, expiration: Int, bitmap: Bitmap, thumbnail: Bitmap
-    private fun insertItemToRealm(listItem: ListItem){
-        val bitmapByteArray = convertBitmapToByteArray(listItem.bitmap)
-        val thumbnailByteArray = convertBitmapToByteArray(listItem.thumbnail)
-        realm.executeTransaction {
-            val item: RealmListItem = realm.createObject(RealmListItem::class.java, listItem.id)
-            item.name = listItem.name
-            item.expiration = listItem.expiration
-            item.date = listItem.date
-            item.bitmapByteArray = bitmapByteArray
-            item.thumbnailByteArray = thumbnailByteArray
-            item.daysLeft = listItem.expiration
-        }
-    }
-
-    private fun getItemsFromRealm(){
-        val items: RealmQuery<RealmListItem>? = realm.where(RealmListItem::class.java)
-        items?.findAll()?.forEach{
-            Toast.makeText(this, it.name, Toast.LENGTH_SHORT).show()
-
-        }
-    }
-
     private fun createThumbnail(bitmap: Bitmap) : Bitmap {
         val thumbnailSize = 320
         return ThumbnailUtils.extractThumbnail(bitmap, thumbnailSize, thumbnailSize)
     }
-
-//    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//    imageData = baos.toByteArray();
 
     private fun convertBitmapToByteArray(bitmap: Bitmap) : ByteArray {
         lateinit var byteArray: ByteArray
@@ -139,5 +117,17 @@ class CreateItem : AppCompatActivity() {
             e.printStackTrace()
         }
         return byteArray
+    }
+
+    private fun rotateImage(source: Bitmap, angle: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(angle)
+        return Bitmap.createBitmap(source, 0, 0, source.width, source.height, matrix, true)
+    }
+
+    private fun convertUriToBitmap(imageUri: Uri) : Bitmap{
+
+        val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, imageUri)
+        return rotateImage(bitmap, 90F)
     }
 }

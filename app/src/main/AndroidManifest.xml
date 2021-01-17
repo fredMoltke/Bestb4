@@ -3,8 +3,8 @@
     package="com.app.bestb4">
 
     <uses-feature android:name="android.hardware.camera.any" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -13,20 +13,11 @@
         android:roundIcon="@mipmap/b4icon2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <service
-            android:name=".NotificationService"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="your.app.domain.NotificationService" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </service>
+        <activity android:name=".EditItemActivity">
+        </activity>
         <activity android:name=".MainFragmentActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask">
-
         </activity>
 
         <meta-data
