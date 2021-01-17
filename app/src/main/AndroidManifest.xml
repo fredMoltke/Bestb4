@@ -10,7 +10,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/b4icon2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/b4iconround"
+        android:roundIcon="@mipmap/b4icon2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".EditItemActivity"></activity>

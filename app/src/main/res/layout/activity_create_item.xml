@@ -36,16 +36,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_percent="0.42" />
 
     <EditText
         android:id="@+id/item_name_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:background="@drawable/textinputborder"
+        android:elevation="20dp"
         android:ems="10"
         android:fontFamily="@font/opensansregular"
-        android:hint="Navn på vare"
+        android:hint="Item name"
         android:inputType="textPersonName"
+        android:padding="5dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
@@ -66,11 +70,15 @@
 
     <EditText
         android:id="@+id/item_expiration_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:background="@drawable/textinputborder"
+        android:elevation="20dp"
         android:ems="10"
         android:fontFamily="@font/opensansregular"
         android:inputType="number"
+        android:padding="5dp"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
@@ -80,8 +88,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
+        android:elevation="20dp"
         android:fontFamily="@font/opensansregular"
-        android:text="Indtast vare Navn"
+        android:text="Insert name of item"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
@@ -93,9 +102,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
+        android:elevation="20dp"
         android:fontFamily="@font/opensansregular"
         android:hint="0"
-        android:text="Holdbarhed efter åbning"
+        android:text="Insert amount of days until item expires"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
@@ -115,9 +125,9 @@
         android:layout_height="wrap_content"
         android:elevation="20dp"
         android:fontFamily="@font/opensanssemibold"
-        android:text="Opret ny vare"
+        android:text="Add new item to list"
         android:textColor="@android:color/black"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -156,4 +166,42 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/newest_cancelbtn" />
+
+    <ImageView
+        android:id="@+id/createItemBackground"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:srcCompat="@drawable/pale_background" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <ImageView
+        android:id="@+id/createItemShadowMiddle"
+        android:layout_width="0dp"
+        android:layout_height="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline9"
+        app:srcCompat="@drawable/shadowbox" />
+
+    <ImageView
+        android:id="@+id/createItemShadowTop"
+        android:layout_width="0dp"
+        android:layout_height="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:srcCompat="@drawable/shadowbox" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

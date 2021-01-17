@@ -36,6 +36,7 @@ class ListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var icon: ImageView
     private lateinit var background: ImageView
+    private lateinit var shadow: ImageView
     private lateinit var welcomeTitle: TextView
     private lateinit var welcomeText: TextView
 
@@ -53,6 +54,7 @@ class ListFragment : Fragment() {
         background = view.findViewById(R.id.listWelcomeBackground)
         welcomeTitle = view.findViewById(R.id.listWelcomeTitleTextView)
         welcomeText = view.findViewById(R.id.listWelcomeTextView)
+        shadow = view.findViewById(R.id.listWelcomeShadow)
 
         return view
     }
@@ -173,11 +175,13 @@ class ListFragment : Fragment() {
             background.visibility = View.VISIBLE
             welcomeText.visibility = View.VISIBLE
             welcomeTitle.visibility = View.VISIBLE
+            shadow.visibility = View.VISIBLE
         } else {
             icon.visibility = View.GONE
             background.visibility = View.GONE
             welcomeText.visibility = View.GONE
             welcomeTitle.visibility = View.GONE
+            shadow.visibility = View.GONE
         }
     }
 
