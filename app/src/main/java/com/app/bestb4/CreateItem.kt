@@ -89,7 +89,7 @@ class CreateItem : AppCompatActivity() {
     private fun addToList(){
         val name: String = item_name_edit_text.text.toString()
         val expiration = item_expiration_edit_text.text.toString().toInt()
-        var listItem = ListItem(0, name, expiration, imageUri, date, expiration, filePath)
+        var listItem = ListItem(date.time, name, expiration, imageUri, date, expiration, filePath)
 
         GlobalScope.launch {
             db.listItemDao().insert(listItem)
