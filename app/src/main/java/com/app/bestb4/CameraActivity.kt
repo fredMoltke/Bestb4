@@ -26,8 +26,8 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 typealias LumaListener = (luma: Double) -> Unit
-
-
+// Implementation guide
+//https://codelabs.developers.google.com/codelabs/camerax-getting-started#0
 class CameraActivity : AppCompatActivity() {
 
     private var imageCapture: ImageCapture? = null

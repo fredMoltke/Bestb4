@@ -3,7 +3,6 @@
     package="com.app.bestb4">
 
     <uses-feature android:name="android.hardware.camera.any" />
-
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
@@ -13,11 +12,11 @@
         android:roundIcon="@mipmap/b4icon2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditItemActivity"></activity>
+        <activity android:name=".EditItemActivity" />
         <activity
             android:name=".MainFragmentActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.sentry.dsn"
