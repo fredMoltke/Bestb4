@@ -141,7 +141,6 @@ class ListFragment : Fragment() {
         EventBus.getDefault().removeStickyEvent(itemListEvent)
         adapter = ListAdapter(itemList)
         recyclerView.adapter = adapter
-        // TODO: Skift boolean ud med first time boolean
         showWelcome(itemList.isEmpty())
         adapter.notifyDataSetChanged()
     }
