@@ -48,7 +48,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         when {
             currentItem.daysLeft < -1 -> {
                 holder.textView2.text =
-                    "Expired by${(currentItem.daysLeft) * (-1)} daYS."
+                    "Expired by${(currentItem.daysLeft) * (-1)} days."
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
                         "gradient_expired",
@@ -69,7 +69,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
                 )
             }
             currentItem.daysLeft == 0 -> {
-                holder.textView2.text = "Expires Today."
+                holder.textView2.text = "Expires today."
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
                         "gradient_zero",
