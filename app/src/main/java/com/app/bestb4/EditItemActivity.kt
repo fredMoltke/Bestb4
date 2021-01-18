@@ -38,6 +38,7 @@ class EditItemActivity : AppCompatActivity() {
     private lateinit var nameEditText: EditText
     private lateinit var expirationEditText: EditText
     private lateinit var listItem: ListItem
+    private var positionInList: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,13 +92,14 @@ class EditItemActivity : AppCompatActivity() {
             db.listItemDao().update(updatedListItem)
         }
 
-        val event: UpdateItemEvent = UpdateItemEvent(updatedListItem)
+        val event: UpdateItemEvent = UpdateItemEvent(updatedListItem, positionInList)
         EventBus.getDefault().postSticky(event)
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onEditItemEvent(editEvent: EditItemEvent){
         listItem = editEvent.item
+        positionInList = editEvent.positionInList
         image.setImageBitmap(convertUriToBitmap(listItem.uri))
         animationView.visibility = View.GONE
         image.visibility = View.VISIBLE

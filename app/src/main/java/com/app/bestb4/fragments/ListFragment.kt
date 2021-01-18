@@ -101,7 +101,7 @@ class ListFragment : Fragment() {
 
     @Subscribe
     fun onClickEvent(clickEvent: ClickEvent){
-        val event: EditItemEvent = EditItemEvent(itemList[clickEvent.position])
+        val event: EditItemEvent = EditItemEvent(itemList[clickEvent.position], clickEvent.position)
         EventBus.getDefault().postSticky(event)
 
         val intent = Intent(activity, EditItemActivity::class.java)
@@ -131,14 +131,10 @@ class ListFragment : Fragment() {
 
     @Subscribe(sticky = true)
     fun onUpdateItemEvent(updateItemEvent: UpdateItemEvent){
-        var positionInList : Int = -1
-        for (i in 0 until itemList.size){
-            if (itemList[i].id.equals(updateItemEvent.item.id)){
-                positionInList = i
-            }
-        }
-        if (positionInList != -1){
-            itemList.set(positionInList, updateItemEvent.item)
+        if (updateItemEvent.positionInList != -1){
+            itemList.removeAt(updateItemEvent.positionInList)
+            itemList.add(updateItemEvent.item)
+            itemList = insertionSort(itemList)
             adapter.notifyDataSetChanged()
         }
         EventBus.getDefault().removeStickyEvent(updateItemEvent)
