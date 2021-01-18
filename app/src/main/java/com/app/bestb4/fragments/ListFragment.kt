@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bestb4.*
 import com.app.bestb4.data.ListItem
-import com.app.bestb4.data.events.ClickEvent
-import com.app.bestb4.data.events.ItemEvent
-import com.app.bestb4.data.events.ItemListEvent
+import com.app.bestb4.data.events.*
 import com.app.bestb4.room.DatabaseBuilder
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.coroutines.GlobalScope
@@ -103,7 +101,11 @@ class ListFragment : Fragment() {
 
     @Subscribe
     fun onClickEvent(clickEvent: ClickEvent){
-        removeItem(clickEvent.position)
+        val event: EditItemEvent = EditItemEvent(itemList[clickEvent.position])
+        EventBus.getDefault().postSticky(event)
+
+        val intent = Intent(activity, EditItemActivity::class.java)
+        startActivity(intent)
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -125,6 +127,21 @@ class ListFragment : Fragment() {
         // TODO: Skift boolean ud med first time boolean
         showWelcome(itemList.isEmpty())
         adapter.notifyDataSetChanged()
+    }
+
+    @Subscribe(sticky = true)
+    fun onUpdateItemEvent(updateItemEvent: UpdateItemEvent){
+        var positionInList : Int = -1
+        for (i in 0 until itemList.size){
+            if (itemList[i].id.equals(updateItemEvent.item.id)){
+                positionInList = i
+            }
+        }
+        if (positionInList != -1){
+            itemList.set(positionInList, updateItemEvent.item)
+            adapter.notifyDataSetChanged()
+        }
+        EventBus.getDefault().removeStickyEvent(updateItemEvent)
     }
 
     override fun onStart() {
