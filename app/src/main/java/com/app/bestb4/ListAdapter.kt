@@ -114,7 +114,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         val background: RelativeLayout = itemView.item_layout
 
         init {
-            itemView.setOnClickListener(this)
+            imageView.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
