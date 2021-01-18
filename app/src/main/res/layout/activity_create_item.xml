@@ -135,7 +135,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/create_item_background_top"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:elevation="10dp"
@@ -146,29 +146,29 @@
         app:srcCompat="@drawable/pale_background" />
 
     <ImageView
-        android:id="@+id/createItemConfirmBtn"
+        android:id="@+id/create_item_confirm_btn"
         android:layout_width="71dp"
         android:layout_height="71dp"
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/createItemCancelBtn"
+        app:layout_constraintStart_toEndOf="@+id/create_item_cancel_btn"
         app:srcCompat="@drawable/newest_confirmbtn" />
 
     <ImageView
-        android:id="@+id/createItemCancelBtn"
+        android:id="@+id/create_item_cancel_btn"
         android:layout_width="71dp"
         android:layout_height="71dp"
         android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/createItemConfirmBtn"
+        app:layout_constraintEnd_toStartOf="@+id/create_item_confirm_btn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/newest_cancelbtn" />
 
     <ImageView
-        android:id="@+id/createItemBackground"
+        android:id="@+id/create_item_middle_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="24dp"
@@ -187,7 +187,7 @@
         app:layout_constraintGuide_percent="0.75" />
 
     <ImageView
-        android:id="@+id/createItemShadowMiddle"
+        android:id="@+id/create_item_shadow_middle"
         android:layout_width="0dp"
         android:layout_height="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -196,7 +196,7 @@
         app:srcCompat="@drawable/shadowbox" />
 
     <ImageView
-        android:id="@+id/createItemShadowTop"
+        android:id="@+id/create_item_shadow_top"
         android:layout_width="0dp"
         android:layout_height="15dp"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,32 +4,204 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPale"
-    tools:context=".EditItemActivity">
+    tools:context="com.app.bestb4.CreateItem">
 
     <ImageView
-        android:id="@+id/editItemImageView"
-        android:layout_width="200dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="76dp"
+        android:id="@+id/edit_item_image_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toTopOf="@+id/edit_guideline1"
+        app:srcCompat="@drawable/ic_baseline_fastfood_24" />
 
-    <TextView
-        android:id="@+id/editItemNameTextView"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/edit_item_loading_animation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_guideline1"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/foodloading" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/edit_guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/opensanssemibold"
-        android:text="Vare Navn"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.42" />
+
+    <EditText
+        android:id="@+id/edit_item_name_edit_text"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:background="@drawable/textinputborder"
+        android:elevation="20dp"
+        android:ems="10"
+        android:fontFamily="@font/opensansregular"
+        android:hint="Item name"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_guideline3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/edit_guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/edit_guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <EditText
+        android:id="@+id/edit_item_expiration_edit_text"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:background="@drawable/textinputborder"
+        android:elevation="20dp"
+        android:ems="10"
+        android:fontFamily="@font/opensansregular"
+        android:inputType="number"
+        android:padding="5dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_guideline4" />
+
+    <TextView
+        android:id="@+id/edit_item_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:elevation="20dp"
+        android:fontFamily="@font/opensansregular"
+        android:text="Item name"
         android:textColor="@android:color/black"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/editItemImageView"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edit_guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/edit_item_expiration_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:elevation="20dp"
+        android:fontFamily="@font/opensansregular"
+        android:hint="0"
+        android:text="Days until item expires"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edit_guideline4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/edit_guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
+
+    <TextView
+        android:id="@+id/edit_item_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="20dp"
+        android:fontFamily="@font/opensanssemibold"
+        android:text="Edit item details"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/edit_guideline1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/edit_item_top_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_guideline1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/pale_background" />
+
+    <ImageView
+        android:id="@+id/edit_item_confirm_btn"
+        android:layout_width="71dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/edit_item_cancel_btn"
+        app:srcCompat="@drawable/newest_confirmbtn" />
+
+    <ImageView
+        android:id="@+id/edit_item_cancel_btn"
+        android:layout_width="71dp"
+        android:layout_height="71dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/edit_item_confirm_btn"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/newest_cancelbtn" />
+
+    <ImageView
+        android:id="@+id/edit_item_middle_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_guideline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_guideline2"
+        app:srcCompat="@drawable/pale_background" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/edit_guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <ImageView
+        android:id="@+id/edit_item_shadow_middle"
+        android:layout_width="0dp"
+        android:layout_height="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_guideline5"
+        app:srcCompat="@drawable/shadowbox" />
+
+    <ImageView
+        android:id="@+id/edit_item_shadow_top"
+        android:layout_width="0dp"
+        android:layout_height="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/edit_guideline1"
+        app:srcCompat="@drawable/shadowbox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

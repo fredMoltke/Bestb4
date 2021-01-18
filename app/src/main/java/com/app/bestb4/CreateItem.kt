@@ -1,6 +1,5 @@
 package com.app.bestb4
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -52,7 +51,7 @@ class CreateItem : AppCompatActivity() {
         animationView.visibility = View.VISIBLE
 
 
-        createItemConfirmBtn.setOnClickListener {
+        create_item_confirm_btn.setOnClickListener {
             // Opret nyt item
             if (item_name_edit_text.text.isNullOrEmpty()){
                 Toast.makeText(this, "Indtast navn på vare.", Toast.LENGTH_SHORT).show()
@@ -64,7 +63,7 @@ class CreateItem : AppCompatActivity() {
                 finish()
             }
         }
-        createItemCancelBtn.setOnClickListener {
+        create_item_cancel_btn.setOnClickListener {
             finish()
         }
     }
