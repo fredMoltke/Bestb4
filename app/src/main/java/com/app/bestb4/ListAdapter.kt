@@ -48,8 +48,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         when {
             currentItem.daysLeft < -1 -> {
                 holder.textView2.text =
-                    "Expired by${(currentItem.daysLeft) * (-1)} daYS."
-//                    holder.background.setBackgroundColor(Color.parseColor("#CF3700"))
+                    "Expired by${(currentItem.daysLeft) * (-1)} days."
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
                         "gradient_expired",
@@ -61,7 +60,6 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
             currentItem.daysLeft == -1 -> {
                 holder.textView2.text =
                     "Expired by ${(currentItem.daysLeft) * (-1)} day."
-//                    holder.background.setBackgroundColor(Color.parseColor("#CF6E00"))
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
                         "gradient_expired",
@@ -71,8 +69,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
                 )
             }
             currentItem.daysLeft == 0 -> {
-                holder.textView2.text = "Expires Today."
-//                    holder.background.setBackgroundColor(Color.parseColor("#DBD000"))
+                holder.textView2.text = "Expires today."
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
                         "gradient_zero",
@@ -93,7 +90,6 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
             }
             else -> {
                 holder.textView2.text = "Expires in ${currentItem.daysLeft} days."
-//                    holder.background.setBackgroundColor(Color.parseColor("#8BDB00"))
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
                         "gradient_fresh",
