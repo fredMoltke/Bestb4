@@ -1,0 +1,41 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="Settings">
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_help_icon"
+        app:title="Help"/>
+
+    <SwitchPreferenceCompat
+        app:key="help"
+        app:title="Turn on tutorial"
+        app:summaryOff="Disabled"
+        app:summaryOn="Enabled" />
+
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_brightness_icon"
+        app:title="General Settings"/>
+
+        <SwitchPreferenceCompat
+            app:key="dark mode"
+            app:title="Dark Mode"
+            app:summaryOn="Dark Mode ON"
+            app:summaryOff="Dark Mode OFF"/>
+
+    <PreferenceCategory
+        app:icon="@drawable/ic_database_icon"
+        app:title="Reset Database">
+
+
+
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

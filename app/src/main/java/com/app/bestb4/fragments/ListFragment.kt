@@ -1,5 +1,6 @@
 package com.app.bestb4.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.bestb4.*
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.*
+import com.app.bestb4.room.AppDatabase
 import com.app.bestb4.room.DatabaseBuilder
 import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.coroutines.GlobalScope
@@ -37,7 +39,7 @@ class ListFragment : Fragment() {
     private lateinit var welcomeTitle: TextView
     private lateinit var welcomeText: TextView
 
-//    private lateinit var db: AppDatabase
+    private lateinit var db: AppDatabase
 
 
     override fun onCreateView(
@@ -59,7 +61,7 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        db = DatabaseBuilder.get(view.context)
+        db = DatabaseBuilder.get(view.context)
         recyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.setHasFixedSize(true)
@@ -108,6 +110,31 @@ class ListFragment : Fragment() {
         startActivity(intent)
     }
 
+    @Subscribe
+    fun onEditClickEvent(editClickEvent: EditClickEvent){
+        val event: EditItemEvent = EditItemEvent(itemList[editClickEvent.position], editClickEvent.position)
+        EventBus.getDefault().postSticky(event)
+
+        val intent = Intent(activity, EditItemActivity::class.java)
+        startActivity(intent)
+    }
+
+    @Subscribe
+    fun onDeleteClickEvent(deleteClickEvent: DeleteClickEvent){
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage("Are you sure you want to delete this item?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, id ->
+                removeItem(deleteClickEvent.position)
+            }
+            .setNegativeButton("No") { dialog, id ->
+                // Dismiss the dialog
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+    }
+
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     fun onItemEvent(itemEvent: ItemEvent){
         insertItem(itemEvent.item)
@@ -138,6 +165,13 @@ class ListFragment : Fragment() {
             adapter.notifyDataSetChanged()
         }
         EventBus.getDefault().removeStickyEvent(updateItemEvent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        GlobalScope.launch {
+            showWelcome(db.listItemDao().getAll().isEmpty())
+        }
     }
 
     override fun onStart() {

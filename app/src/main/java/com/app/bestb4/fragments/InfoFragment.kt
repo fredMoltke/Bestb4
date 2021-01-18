@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.app.bestb4.R
 import kotlinx.android.synthetic.main.fragment_info.*
-import kotlinx.android.synthetic.main.fragment_list.*
 
 class InfoFragment : Fragment() {
 
@@ -23,7 +22,7 @@ class InfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        infotext.setOnClickListener{
+        info_instructions_title.setOnClickListener{
             Toast.makeText(context, "Info Fragment", Toast.LENGTH_SHORT).show()
         }
     }

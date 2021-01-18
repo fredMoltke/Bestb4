@@ -16,6 +16,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app.bestb4.data.ListItem
 import com.app.bestb4.data.events.ClickEvent
+import com.app.bestb4.data.events.DeleteClickEvent
+import com.app.bestb4.data.events.EditClickEvent
 import kotlinx.android.synthetic.main.list_item.view.*
 import org.greenrobot.eventbus.EventBus
 import java.io.ByteArrayOutputStream
@@ -112,16 +114,24 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         val textView1: TextView = itemView.list_item_text_view_1
         val textView2: TextView = itemView.list_item_text_view_2
         val background: RelativeLayout = itemView.item_layout
+        val editButton: ImageView = itemView.list_item_pencil
+        val deleteButton: ImageView = itemView.list_item_trashcan
 
         init {
-            imageView.setOnClickListener(this)
+            editButton.setOnClickListener(this)
+            deleteButton.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
             val position: Int = adapterPosition
             if (position != RecyclerView.NO_POSITION) {
-                val clickEvent: ClickEvent = ClickEvent(position)
-                EventBus.getDefault().post(clickEvent)
+                if (v == editButton){
+                    val editClickEvent: EditClickEvent = EditClickEvent(position)
+                    EventBus.getDefault().post(editClickEvent)
+                } else {
+                    val deleteClickEvent: DeleteClickEvent = DeleteClickEvent(position)
+                    EventBus.getDefault().post(deleteClickEvent)
+                }
             }
         }
     }
