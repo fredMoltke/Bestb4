@@ -54,10 +54,10 @@ class CreateItem : AppCompatActivity() {
         create_item_confirm_btn.setOnClickListener {
             // Opret nyt item
             if (item_name_edit_text.text.isNullOrEmpty()){
-                Toast.makeText(this, "Indtast navn på vare.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter item name here", Toast.LENGTH_SHORT).show()
             }
             else if (item_expiration_edit_text.text.isNullOrEmpty()){
-                Toast.makeText(this, "Indtast antal dage holdbar efter åbning.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter number of days before expiration", Toast.LENGTH_SHORT).show()
             } else {
                 addToList()
                 finish()

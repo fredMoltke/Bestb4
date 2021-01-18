@@ -46,7 +46,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
         when {
             currentItem.daysLeft < -1 -> {
                 holder.textView2.text =
-                    "Udløbet! Holdbarhed overskredet med ${(currentItem.daysLeft) * (-1)} dage."
+                    "Expired by${(currentItem.daysLeft) * (-1)} daYS."
 //                    holder.background.setBackgroundColor(Color.parseColor("#CF3700"))
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
@@ -58,7 +58,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
             }
             currentItem.daysLeft == -1 -> {
                 holder.textView2.text =
-                    "Udløbet! Holdbarhed overskredet med ${(currentItem.daysLeft) * (-1)} dag."
+                    "Expired by ${(currentItem.daysLeft) * (-1)} day."
 //                    holder.background.setBackgroundColor(Color.parseColor("#CF6E00"))
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
@@ -69,7 +69,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
                 )
             }
             currentItem.daysLeft == 0 -> {
-                holder.textView2.text = "Udløber i dag."
+                holder.textView2.text = "Expires Today."
 //                    holder.background.setBackgroundColor(Color.parseColor("#DBD000"))
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
@@ -80,7 +80,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
                 )
             }
             currentItem.daysLeft == 1 -> {
-                holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dag."
+                holder.textView2.text = "Expires in ${currentItem.daysLeft} day."
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
                         "gradient_close",
@@ -90,7 +90,7 @@ class ListAdapter(private val exampleList: List<ListItem>) : RecyclerView.Adapte
                 )
             }
             else -> {
-                holder.textView2.text = "Holdbar i ${currentItem.daysLeft} dage."
+                holder.textView2.text = "Expires in ${currentItem.daysLeft} days."
 //                    holder.background.setBackgroundColor(Color.parseColor("#8BDB00"))
                 holder.background.setBackgroundResource(
                     context.resources.getIdentifier(
