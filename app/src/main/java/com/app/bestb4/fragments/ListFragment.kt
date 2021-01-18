@@ -1,5 +1,6 @@
 package com.app.bestb4.fragments
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -100,12 +101,30 @@ class ListFragment : Fragment() {
 
 
     @Subscribe
-    fun onClickEvent(clickEvent: ClickEvent){
-        val event: EditItemEvent = EditItemEvent(itemList[clickEvent.position], clickEvent.position)
+    fun onEditClickEvent(editClickEvent: EditClickEvent){
+        val event: EditItemEvent = EditItemEvent(itemList[editClickEvent.position], editClickEvent.position)
         EventBus.getDefault().postSticky(event)
 
         val intent = Intent(activity, EditItemActivity::class.java)
         startActivity(intent)
+    }
+
+    @Subscribe
+    fun onDeleteClickEvent(deleteClickEvent: DeleteClickEvent){
+        // https://stackoverflow.com/questions/59340099/how-to-set-confirm-delete-alertdialogue-box-in-kotlin
+        val builder = AlertDialog.Builder(activity)
+        builder.setMessage("Are you sure you want to delete this item?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, id ->
+                // Delete selected note from database
+                removeItem(deleteClickEvent.position)
+            }
+            .setNegativeButton("No") { dialog, id ->
+                // Dismiss the dialog
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
