@@ -1,5 +1,6 @@
 package com.app.bestb4
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -52,5 +53,6 @@ class MainFragmentActivity : AppCompatActivity() {
             replaceFragment(listFragment)
         }
         else super.onBackPressed()
+        finish()
     }
 }
