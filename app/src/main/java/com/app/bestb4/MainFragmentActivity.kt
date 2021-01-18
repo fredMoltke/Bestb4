@@ -1,12 +1,16 @@
 package com.app.bestb4
 
 
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import androidx.work.Constraints
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
@@ -34,29 +38,8 @@ class MainFragmentActivity : AppCompatActivity() {
         replaceFragment(listFragment)
 
 
-
-        // 5 sec mellem notficationer
-        val handler = Handler()
-        var timer = Timer()
-        var doAsynchronousTask: TimerTask = object : TimerTask() {
-            override fun run() {
-                handler.post {
-                    try {
-                        triggerNotification = TriggerNotification(this@MainFragmentActivity,"HEJ", "mainfragment open")
-                    } catch (e: Exception) {
-
-                    }
-                }
-            }
-        }
-        timer.schedule(doAsynchronousTask, 5000 , 5000);
-
-
-
         // test at notfications virker
-       // notfi = TriggerNotification(this,"HEJ", "mainfragment open")
-
-
+      // triggerNotification = TriggerNotification(this,"HEJ", "mainfragment open")
 
         // if statements her checker om det nuværende fragment der vises trykkes på i navigationbar.
         // Sørger for backstack ikke fyldes med fragments
@@ -72,10 +55,43 @@ class MainFragmentActivity : AppCompatActivity() {
             }
             true
         }
+        loadSettings()
 
     }
 
+    private fun loadSettings() {
+
+        val sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+
+        val help: Boolean = sp.getBoolean("help",false)
+        val darkMode: Boolean = sp.getBoolean("dark mode",false)
+
+
+        if(darkMode){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            val editor: SharedPreferences.Editor = sp.edit()
+            editor.putBoolean("dark mode", true)
+            editor.apply()
+
+        }else{
+
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            val editor: SharedPreferences.Editor = sp.edit()
+            editor.putBoolean("dark mode", false)
+            editor.apply()
+
+        }
+
+        if(help){
+
+        }else{
+
+        }
+    }
+
     private fun replaceFragment(fragment: Fragment) {
+
+            loadSettings()
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_container, fragment)
             transaction.addToBackStack(null)

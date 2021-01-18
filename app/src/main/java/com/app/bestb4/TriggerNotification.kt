@@ -23,7 +23,7 @@ class TriggerNotification(context: Context, title: String, body: String?) {
     private fun createNotificationChannel(context: Context, name: String, description: String): String {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        val chanelId = UUID.randomUUID().toString()
+        val chanelId = "Channel ID"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(chanelId, name, importance)
@@ -44,7 +44,7 @@ class TriggerNotification(context: Context, title: String, body: String?) {
 
         val notificationManager = NotificationManagerCompat.from(context)
         val mBuilder = NotificationCompat.Builder(context, createNotificationChannel(context, title, body))
-        val notificationId = (System.currentTimeMillis() and 0xfffffff).toInt()
+        val notificationId = 123
 
         mBuilder.setDefaults(Notification.DEFAULT_ALL)
             .setTicker("BestB4")

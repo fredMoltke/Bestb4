@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 
-class NotificationSchedule (var context: Context, var params: WorkerParameters) : Worker(context, params) {
+class NotificationSchedule  (var context: Context, var params: WorkerParameters) : Worker(context, params) {
 
     override fun doWork(): Result {
         val data = params.inputData
