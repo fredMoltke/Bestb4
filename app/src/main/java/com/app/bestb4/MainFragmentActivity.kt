@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.activity_main_fragment.*
 
 class MainFragmentActivity : AppCompatActivity() {
 
-
     private val settingsFragment = SettingsFragment()
     private val infoFragment = InfoFragment()
     private val listFragment = ListFragment()
@@ -21,14 +20,16 @@ class MainFragmentActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_fragment)
         replaceFragment(listFragment)
 
-
         // if statements her checker om det nuværende fragment der vises trykkes på i navigationbar.
         // Sørger for backstack ikke fyldes med fragments
         bottom_nav.setOnNavigationItemSelectedListener{
             when(it.itemId){
-                R.id.ic_list -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != listFragment) replaceFragment(listFragment)
-                R.id.ic_settings -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != settingsFragment) replaceFragment(settingsFragment)
-                R.id.ic_info -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != infoFragment) replaceFragment(infoFragment)
+                R.id.ic_list -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != listFragment)
+                    replaceFragment(listFragment)
+                R.id.ic_settings -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != settingsFragment)
+                    replaceFragment(settingsFragment)
+                R.id.ic_info -> if (supportFragmentManager.findFragmentById(R.id.fragment_container) != infoFragment)
+                    replaceFragment(infoFragment)
 
             }
             true
@@ -36,7 +37,6 @@ class MainFragmentActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, fragment)
         transaction.addToBackStack(null)

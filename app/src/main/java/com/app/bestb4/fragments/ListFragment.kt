@@ -100,16 +100,6 @@ class ListFragment : Fragment() {
         }
     }
 
-
-    @Subscribe
-    fun onClickEvent(clickEvent: ClickEvent){
-        val event: EditItemEvent = EditItemEvent(itemList[clickEvent.position], clickEvent.position)
-        EventBus.getDefault().postSticky(event)
-
-        val intent = Intent(activity, EditItemActivity::class.java)
-        startActivity(intent)
-    }
-
     @Subscribe
     fun onEditClickEvent(editClickEvent: EditClickEvent){
         val event: EditItemEvent = EditItemEvent(itemList[editClickEvent.position], editClickEvent.position)
