@@ -48,6 +48,25 @@
             android:textColor="@color/colorPale"
             android:textSize="18sp" />
 
+        <ImageView
+            android:id="@+id/list_item_pencil"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/list_item_trashcan"
+            app:srcCompat="@drawable/pencil" />
+
+        <ImageView
+            android:id="@+id/list_item_trashcan"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="false"
+            android:layout_centerHorizontal="false"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/trashcan" />
+
 
     </RelativeLayout>
 
