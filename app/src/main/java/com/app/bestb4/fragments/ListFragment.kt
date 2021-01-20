@@ -161,10 +161,8 @@ class ListFragment : Fragment() {
         GlobalScope.launch {
             var listFromDb = db.listItemDao().getAll() as ArrayList<ListItem>
             showWelcome(listFromDb.isEmpty())
-            itemList = insertionSort(listFromDb)
-            adapter = ListAdapter(itemList)
-            recyclerView.adapter = adapter
-            adapter.notifyDataSetChanged()
+//            itemList = insertionSort(listFromDb)
+//            adapter.notifyDataSetChanged()
         }
     }
 
@@ -181,20 +179,26 @@ class ListFragment : Fragment() {
     //   https://chercher.tech/kotlin/insertion-sort-kotlin
     // Sorter liste fra kortest til længest holdbarhed (relativt til åbningsdato og holdbarhed efter åbning)
     private fun insertionSort(list: ArrayList<ListItem>) : ArrayList<ListItem>{
-        if (list.isEmpty() || list.size<2) return list
-
+//        if (list.isEmpty() || list.size<2) return list
         val currentDate : Date = Calendar.getInstance().time
-        for (count in 1 until list.count()){
-            val item = list[count]
-            var i = count
-            while (i > 0 && calculateDaysLeft(item, currentDate) < calculateDaysLeft(
-                    list[i - 1],
-                    currentDate
-                )){
-                list[i] = list[i - 1]
-                i -= 1
+        if (list.isEmpty()){
+            return list
+        } else if (list.size == 1){
+            calculateDaysLeft(list.get(0), currentDate)
+            return list
+        } else {
+            for (count in 1 until list.count()){
+                val item = list[count]
+                var i = count
+                while (i > 0 && calculateDaysLeft(item, currentDate) < calculateDaysLeft(
+                        list[i - 1],
+                        currentDate
+                    )){
+                    list[i] = list[i - 1]
+                    i -= 1
+                }
+                list[i] = item
             }
-            list[i] = item
         }
         return list
     }
