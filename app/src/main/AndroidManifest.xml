@@ -13,17 +13,19 @@
         android:roundIcon="@mipmap/b4icon2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditItemActivity"></activity>
+        <activity android:name=".EditItemActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".MainFragmentActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.sentry.dsn"
             android:value="https://a78e421ea09f409798921c6eae959d37@o474809.ingest.sentry.io/5511698" />
 
-        <activity android:name=".CreateItem" />
+        <activity android:name=".CreateItem"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".CameraActivity"
             android:screenOrientation="portrait" />

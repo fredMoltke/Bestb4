@@ -201,7 +201,9 @@ class ListFragment : Fragment() {
             differenceInMilliseconds,
             TimeUnit.MILLISECONDS
         )
-        return item.expiration - differenceInDays.toInt()
+        var newDaysLeft = item.expiration - differenceInDays.toInt()
+        item.daysLeft = newDaysLeft
+        return newDaysLeft
     }
 
     private fun showWelcome(boolean: Boolean){
