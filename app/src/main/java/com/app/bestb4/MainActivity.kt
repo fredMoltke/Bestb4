@@ -34,14 +34,14 @@ class MainActivity : AppCompatActivity() {
         val homeIntent = Intent(this@MainActivity, MainFragmentActivity::class.java)
         homeIntent.flags = homeIntent.flags or Intent.FLAG_ACTIVITY_NO_HISTORY
 
-        var dbListItems = ArrayList<ListItem>()
-        GlobalScope.launch {
-            dbListItems = db.listItemDao().getAll() as ArrayList<ListItem>
-            if (dbListItems.isNotEmpty()){
-                val itemListEvent: ItemListEvent = ItemListEvent(dbListItems)
-                EventBus.getDefault().postSticky(itemListEvent)
-            }
-        }
+//        var dbListItems = ArrayList<ListItem>()
+//        GlobalScope.launch {
+//            dbListItems = db.listItemDao().getAll() as ArrayList<ListItem>
+//            if (dbListItems.isNotEmpty()){
+//                val itemListEvent: ItemListEvent = ItemListEvent(dbListItems)
+//                EventBus.getDefault().postSticky(itemListEvent)
+//            }
+//        }
 
         Handler().postDelayed({
             startActivity(homeIntent)

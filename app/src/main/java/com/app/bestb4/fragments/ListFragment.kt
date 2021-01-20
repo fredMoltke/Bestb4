@@ -159,7 +159,12 @@ class ListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         GlobalScope.launch {
-            showWelcome(db.listItemDao().getAll().isEmpty())
+            var listFromDb = db.listItemDao().getAll() as ArrayList<ListItem>
+            showWelcome(listFromDb.isEmpty())
+            itemList = insertionSort(listFromDb)
+            adapter = ListAdapter(itemList)
+            recyclerView.adapter = adapter
+            adapter.notifyDataSetChanged()
         }
     }
 
